@@ -4,6 +4,13 @@ import { ref, computed } from 'vue';
 import type { GameState } from '../engine/types';
 import { STAGE_OF_AGE } from '../engine/constants';
 import { loadGame, saveGame, clearSave, hasSave, type SaveData } from '../utils/save';
+import { resolveChoice } from '../engine/outcome';
+import { selectEventsForYear, applyYearlyTick, applyOutcomeToState, checkDeath } from '../engine/loop';
+import { resolveEnding } from '../engine/ending';
+import { mulberry32 } from '../engine/rng';
+import { BASE_LIFESPAN, LIFESPAN_VARIANCE } from '../engine/constants';
+import { ALL_EVENTS, ALL_ENDINGS, findEvent } from '../content/_registry';
+import type { Outcome, GameEvent } from '../engine/types';
 
 type View = 'start' | 'game' | 'ending' | 'settings';
 
@@ -16,6 +23,9 @@ export const useGameStore = defineStore('game', () => {
   const unlockedEndings = ref<string[]>([]);
   const totalPlaythroughs = ref(0);
   const lastLog = ref<string[]>([]);
+  const currentEvent = ref<GameEvent | null>(null);
+  const lastOutcome = ref<Outcome | null>(null);
+  const rng = ref<() => number>(() => Math.random());
 
   const hasOngoingGame = computed(() => state.value !== null && view.value === 'game');
 
@@ -83,10 +93,69 @@ export const useGameStore = defineStore('game', () => {
     view.value = v;
   }
 
+  function startYear() {
+    if (!state.value) return;
+    rng.value = mulberry32(state.value.meta.seed + state.value.age * 7919);
+    const ids = selectEventsForYear(ALL_EVENTS, state.value, rng.value);
+    currentEventIds.value = ids;
+    eventQueueIndex.value = 0;
+    loadCurrentEvent();
+  }
+
+  function loadCurrentEvent() {
+    if (!state.value) return;
+    const id = currentEventIds.value[eventQueueIndex.value];
+    currentEvent.value = id ? findEvent(id) ?? null : null;
+    if (!currentEvent.value && currentEventIds.value.length === 0) {
+      currentEvent.value = null; // 平静年
+    }
+  }
+
+  function selectChoice(choice: GameEvent['choices'][number]) {
+    if (!state.value || !currentEvent.value) return;
+    const outcome = resolveChoice(choice, state.value, rng.value);
+    if (!outcome) {
+      lastOutcome.value = { weight: 0, condition: { all: [] }, apply: () => {}, result: '（无 outcome）' };
+      return;
+    }
+    applyOutcomeToState(state.value, outcome, currentEvent.value.id);
+    lastOutcome.value = outcome;
+    // 如果 outcome 指向结局，直接进入结局判定
+    if (outcome.nextEvent?.startsWith('ending_')) {
+      finalizeEnding();
+      return;
+    }
+    // 推进队列
+    eventQueueIndex.value += 1;
+    loadCurrentEvent();
+  }
+
+  function advanceYear() {
+    if (!state.value) return;
+    applyYearlyTick(state.value);
+    const lifespan = BASE_LIFESPAN + (((state.value.meta.seed % 31) - 15) % LIFESPAN_VARIANCE);
+    if (checkDeath(state.value, lifespan)) {
+      finalizeEnding();
+      return;
+    }
+    startYear();
+    persist();
+  }
+
+  function finalizeEnding() {
+    if (!state.value) return;
+    const ending = resolveEnding(ALL_ENDINGS, state.value);
+    currentEndingId.value = ending.id;
+    if (!unlockedEndings.value.includes(ending.id)) unlockedEndings.value.push(ending.id);
+    view.value = 'ending';
+    persist();
+  }
+
   return {
     state, view, currentEventIds, eventQueueIndex, currentEndingId,
-    unlockedEndings, totalPlaythroughs, lastLog,
+    unlockedEndings, totalPlaythroughs, lastLog, currentEvent, lastOutcome,
     hasOngoingGame, newGame, persist, loadFromSave, checkHasSave, resetAll, setView,
+    startYear, selectChoice, advanceYear,
   };
 });
 
