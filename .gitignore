@@ -9,6 +9,13 @@ dist-ssr/
 build/
 *.local
 
+# TypeScript stray emit artifacts (from vue-tsc --noEmit -p on root config)
+src/**/*.js
+src/**/*.d.ts
+tests/**/*.js
+tests/**/*.d.ts
+*.tsbuildinfo
+
 # Vite / build cache
 .vite/
 .cache/
