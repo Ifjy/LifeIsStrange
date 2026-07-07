@@ -4,15 +4,21 @@ import { dreamGaokao } from './college/dream-gaokao';
 import { overworkCritical } from './chains/overwork-death';
 import { rebornAsGaokaoEnding } from './endings/reborn-as-gaokao';
 import { underworldHrEnding } from './endings/underworld-hr';
+import { secretReading } from './school/secret-reading';
+import { slackerWriting } from './chains/slacker-author';
+import { slackerAuthorEnding } from './endings/slacker-author';
 
 export const ALL_EVENTS: GameEvent[] = [
   dreamGaokao,
   overworkCritical,
+  secretReading,
+  slackerWriting,
 ];
 
 export const ALL_ENDINGS: Ending[] = [
   underworldHrEnding,    // priority 100
   rebornAsGaokaoEnding,  // priority 90
+  slackerAuthorEnding,   // priority 90
   {
     id: 'default_ordinary',
     priority: 0,
