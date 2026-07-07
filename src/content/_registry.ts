@@ -7,12 +7,25 @@ import { underworldHrEnding } from './endings/underworld-hr';
 import { secretReading } from './school/secret-reading';
 import { slackerWriting } from './chains/slacker-author';
 import { slackerAuthorEnding } from './endings/slacker-author';
+import { childhoodEvents } from './childhood/_index';
+import { schoolEvents } from './school/_index';
+import { collegeEvents } from './college/_index';
+import { careerEvents } from './career/_index';
+import { retirementEvents } from './retirement/_index';
 
 export const ALL_EVENTS: GameEvent[] = [
+  // 铺垫
   dreamGaokao,
-  overworkCritical,
   secretReading,
+  // 招牌链
+  overworkCritical,
   slackerWriting,
+  // 流程保底
+  ...childhoodEvents,
+  ...schoolEvents,
+  ...collegeEvents,
+  ...careerEvents,
+  ...retirementEvents,
 ];
 
 export const ALL_ENDINGS: Ending[] = [
