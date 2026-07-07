@@ -116,6 +116,13 @@ export const useGameStore = defineStore('game', () => {
 
   function selectChoice(choice: GameEvent['choices'][number]) {
     if (!state.value || !currentEvent.value) return;
+    // NG+ 前世记忆：罕见反转 weight +5%
+    if (state.value.flags.has('ng_plus_memory')) {
+      choice = {
+        ...choice,
+        outcomes: choice.outcomes.map((o) => ({ ...o, weight: o.weight * 1.05 })),
+      };
+    }
     const outcome = resolveChoice(choice, state.value, rng.value);
     if (!outcome) {
       lastOutcome.value = { weight: 0, condition: { all: [] }, apply: () => {}, result: '（无 outcome）' };

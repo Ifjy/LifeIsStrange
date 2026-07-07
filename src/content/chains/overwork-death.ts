@@ -81,5 +81,19 @@ export const overworkCritical: GameEvent = {
         },
       ],
     },
+    {
+      label: '（前世记忆）你想起这种情况通常……',
+      hint: '需要 NG+ 前世记忆',
+      visibleWhen: { flag: 'ng_plus_memory' },
+      outcomes: [{
+        weight: 100,
+        condition: { flag: 'ng_plus_memory' },
+        apply: (s) => {
+          s.attrs.快乐 += 5;
+          s.flags.add('choice_used_memory');
+        },
+        result: '你想起上辈子就是这里出的事，这次你巧妙避开。',
+      }],
+    },
   ],
 };

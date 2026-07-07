@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { useGameStore } from '../stores/game';
 import AttrPanel from '../components/AttrPanel.vue';
 import EventCard from '../components/EventCard.vue';
+import HistoryPanel from '../components/HistoryPanel.vue';
 
 const store = useGameStore();
 
@@ -38,6 +39,7 @@ function nextYear() {
       </main>
     </div>
     <footer class="bottombar">
+      <HistoryPanel />
       <button class="next-year" @click="nextYear" :disabled="!!store.currentEvent">
         下一年 →
       </button>
