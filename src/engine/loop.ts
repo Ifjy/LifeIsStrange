@@ -1,7 +1,8 @@
 // src/engine/loop.ts
 import type { GameState, GameEvent, Outcome } from './types';
 import { filterEligible } from './trigger';
-import { STAGE_OF_AGE, CONSTITUTION_DECAY_AGE, clampAttr } from './constants';
+import { evaluateCondition } from './condition';
+import { STAGE_OF_AGE, CONSTITUTION_DECAY_AGE, clampAttr, THRESHOLDS } from './constants';
 
 /**
  * Select 0-3 event IDs for the current year.
@@ -82,4 +83,36 @@ export function applyOutcomeToState(state: GameState, outcome: Outcome, eventId:
   (Object.keys(state.attrs) as Array<keyof typeof state.attrs>).forEach((k) => {
     state.attrs[k] = clampAttr(state.attrs[k]);
   });
+}
+
+/**
+ * Detect threshold events (baseWeight === 0) whose conditions are met.
+ *
+ * Unlike regular events sampled by baseWeight probability, threshold events
+ * fire deterministically whenever their `requires` conditions evaluate true.
+ * Compound conditions (e.g. 快乐+财富>150, age in [40,50]) that cannot be
+ * expressed in a single Condition are handled via special-case branches here.
+ *
+ * Returns an array of event IDs to append to the event queue.
+ */
+export function detectThresholdEvents(
+  thresholdEvents: ReadonlyArray<GameEvent>,
+  state: GameState,
+): string[] {
+  const triggered: string[] = [];
+  for (const ev of thresholdEvents) {
+    if (ev.trigger.baseWeight > 0) continue; // 只看 baseWeight=0 的阈值事件
+    if (state.history.includes(ev.id)) continue;
+    if (!ev.trigger.requires?.every((c) => evaluateCondition(c, state))) continue;
+    // 复合条件（如快乐+财富>150）在这里手动判断
+    if (ev.id === 'threshold_peak_high') {
+      if (state.attrs.快乐 + state.attrs.财富 <= THRESHOLDS.peakCombined) continue;
+    }
+    if (ev.id === 'threshold_midlife_crisis') {
+      const [min, max] = THRESHOLDS.midlifeAgeRange;
+      if (state.age < min || state.age > max) continue;
+    }
+    triggered.push(ev.id);
+  }
+  return triggered;
 }

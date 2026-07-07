@@ -5,7 +5,7 @@ import type { GameState } from '../engine/types';
 import { STAGE_OF_AGE } from '../engine/constants';
 import { loadGame, saveGame, clearSave, hasSave, type SaveData } from '../utils/save';
 import { resolveChoice } from '../engine/outcome';
-import { selectEventsForYear, applyYearlyTick, applyOutcomeToState, checkDeath } from '../engine/loop';
+import { selectEventsForYear, applyYearlyTick, applyOutcomeToState, checkDeath, detectThresholdEvents } from '../engine/loop';
 import { resolveEnding } from '../engine/ending';
 import { mulberry32 } from '../engine/rng';
 import { BASE_LIFESPAN, LIFESPAN_VARIANCE } from '../engine/constants';
@@ -97,7 +97,10 @@ export const useGameStore = defineStore('game', () => {
     if (!state.value) return;
     rng.value = mulberry32(state.value.meta.seed + state.value.age * 7919);
     const ids = selectEventsForYear(ALL_EVENTS, state.value, rng.value);
-    currentEventIds.value = ids;
+    const thresholdIds = detectThresholdEvents(
+      ALL_EVENTS.filter((e) => e.trigger.baseWeight === 0), state.value,
+    );
+    currentEventIds.value = [...ids, ...thresholdIds];
     eventQueueIndex.value = 0;
     loadCurrentEvent();
   }
@@ -125,8 +128,14 @@ export const useGameStore = defineStore('game', () => {
       finalizeEnding();
       return;
     }
-    // 推进队列
+    // 先推进队列（跳过刚处理完的事件），再检测 apply 后可能新触发的阈值事件
     eventQueueIndex.value += 1;
+    const moreThreshold = detectThresholdEvents(
+      ALL_EVENTS.filter((e) => e.trigger.baseWeight === 0), state.value,
+    );
+    if (moreThreshold.length > 0) {
+      currentEventIds.value = [...currentEventIds.value, ...moreThreshold];
+    }
     loadCurrentEvent();
   }
 
