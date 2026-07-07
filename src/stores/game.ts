@@ -125,7 +125,9 @@ export const useGameStore = defineStore('game', () => {
     }
     const outcome = resolveChoice(choice, state.value, rng.value);
     if (!outcome) {
-      lastOutcome.value = { weight: 0, condition: { all: [] }, apply: () => {}, result: '（无 outcome）' };
+      lastOutcome.value = { weight: 0, condition: { all: [] }, apply: () => {}, result: '（似乎什么也没发生。）' };
+      eventQueueIndex.value += 1;
+      loadCurrentEvent();
       return;
     }
     applyOutcomeToState(state.value, outcome, currentEvent.value.id);

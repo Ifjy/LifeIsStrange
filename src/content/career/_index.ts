@@ -97,17 +97,25 @@ export const careerEvents: GameEvent[] = [
     choices: [
       {
         label: '结婚生子',
-        outcomes: [{
-          weight: 100,
-          condition: { attrGte: { 财富: 40 } },
-          apply: (s) => {
-            s.attrs.快乐 += 15;
-            s.attrs.财富 -= 20;
-            s.flags.add('milestone_family');
-            s.flags.add('milestone_married');
+        outcomes: [
+          {
+            weight: 100,
+            condition: { attrGte: { 财富: 40 } },
+            apply: (s) => {
+              s.attrs.快乐 += 15;
+              s.attrs.财富 -= 20;
+              s.flags.add('milestone_family');
+              s.flags.add('milestone_married');
+            },
+            result: '你成家了。',
           },
-          result: '你成家了。',
-        }],
+          {
+            weight: 100,
+            condition: { attrLt: { 财富: 40 } },
+            apply: (s) => { s.attrs.快乐 -= 5; },
+            result: '彩礼和房贷让你喘不过气，婚礼只好从简。',
+          },
+        ],
       },
       {
         label: '丁克',
@@ -142,17 +150,25 @@ export const careerEvents: GameEvent[] = [
     choices: [
       {
         label: '咬牙买房，背三十年房贷',
-        outcomes: [{
-          weight: 100,
-          condition: { attrGte: { 财富: 50 } },
-          apply: (s) => {
-            s.attrs.财富 -= 15;
-            s.attrs.快乐 += 8;
-            s.flags.add('milestone_house_owner');
-            s.flags.add('choice_buy_house');
+        outcomes: [
+          {
+            weight: 100,
+            condition: { attrGte: { 财富: 50 } },
+            apply: (s) => {
+              s.attrs.财富 -= 15;
+              s.attrs.快乐 += 8;
+              s.flags.add('milestone_house_owner');
+              s.flags.add('choice_buy_house');
+            },
+            result: '你成了有房一族。每月还款心痛，但推开家门那一刻值了。',
           },
-          result: '你成了有房一族。每月还款心痛，但推开家门那一刻值了。',
-        }],
+          {
+            weight: 100,
+            condition: { attrLt: { 财富: 50 } },
+            apply: (s) => { s.attrs.快乐 -= 10; s.attrs.财富 -= 10; },
+            result: '你硬着头皮贷了三十年，每月工资大半还了房贷。',
+          },
+        ],
       },
       {
         label: '继续租房，保持自由',

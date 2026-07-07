@@ -11,12 +11,20 @@ export const schoolEvents: GameEvent[] = [
     choices: [
       {
         label: '递一张小纸条',
-        outcomes: [{
-          weight: 100,
-          condition: { attrGte: { 魅力: 30 } },
-          apply: (s) => { s.attrs.魅力 += 5; s.attrs.快乐 += 8; s.flags.add('choice_first_crush'); },
-          result: '对方红着脸收下了。这段暗恋成了甜甜的秘密。',
-        }],
+        outcomes: [
+          {
+            weight: 100,
+            condition: { attrGte: { 魅力: 30 } },
+            apply: (s) => { s.attrs.魅力 += 5; s.attrs.快乐 += 8; s.flags.add('choice_first_crush'); },
+            result: '对方红着脸收下了。这段暗恋成了甜甜的秘密。',
+          },
+          {
+            weight: 100,
+            condition: { attrLt: { 魅力: 30 } },
+            apply: (s) => { s.attrs.快乐 -= 3; },
+            result: '你鼓起勇气递了纸条，对方尴尬地笑了笑，没有回应。',
+          },
+        ],
       },
       {
         label: '默默藏在心里',
