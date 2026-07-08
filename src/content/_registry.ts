@@ -25,6 +25,16 @@ import { crisisLowConstitution } from './thresholds/crisis-low-constitution';
 import { peakHighCombined } from './thresholds/peak-high-combined';
 import { midlifeCrisis } from './thresholds/midlife-crisis';
 import { monkEnding } from './endings/monk';
+import {
+  centenarianEnding,
+  entrepreneurEnding,
+  globalTravelerEnding,
+  lifelongLearnerEnding,
+  debtRiddenEnding,
+  hermitEnding,
+  dyingAloneEnding,
+  jackOfAllTradesEnding,
+} from './endings/lifestyle-endings';
 
 // 内联结局（spec §6.1 要求，无需单独文件）
 const richEnding: Ending = {
@@ -79,17 +89,25 @@ export const ALL_EVENTS: GameEvent[] = [
 ];
 
 export const ALL_ENDINGS: Ending[] = [
-  underworldHrEnding,    // priority 100
-  rebornAsGaokaoEnding,  // priority 90
-  slackerAuthorEnding,   // priority 90
-  internetStarEnding,    // priority 90
-  globalExecutiveEnding, // priority 90
-  monkEnding,            // priority 70
-  cyberbullyVictimEnding,// priority 60
-  homesickReturneeEnding,// priority 55
-  richEnding,            // priority 50
-  happyFamilyEnding,     // priority 50
-  earlyDeathEnding,      // priority 40
+  underworldHrEnding,      // priority 100
+  rebornAsGaokaoEnding,    // priority 90
+  slackerAuthorEnding,     // priority 90
+  internetStarEnding,      // priority 90
+  globalExecutiveEnding,   // priority 90
+  monkEnding,              // priority 70
+  cyberbullyVictimEnding,  // priority 60
+  homesickReturneeEnding,  // priority 55
+  richEnding,              // priority 50
+  happyFamilyEnding,       // priority 50
+  centenarianEnding,       // priority 45
+  entrepreneurEnding,      // priority 45
+  earlyDeathEnding,        // priority 40
+  globalTravelerEnding,    // priority 39
+  lifelongLearnerEnding,   // priority 38
+  debtRiddenEnding,        // priority 37
+  hermitEnding,            // priority 36
+  dyingAloneEnding,        // priority 35
+  jackOfAllTradesEnding,   // priority 34
   {
     id: 'default_ordinary',
     priority: 0,
