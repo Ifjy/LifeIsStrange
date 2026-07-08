@@ -56,32 +56,32 @@ describe('applyYearlyTick', () => {
     expect(s.stage).toBe('career');
   });
 
-  it('reduces体质 by 1 each year after 35', () => {
-    const s = makeState({ age: 40 });
+  it('reduces体质 by 1 each year after decay age (45)', () => {
+    const s = makeState({ age: 50 });
     const before = s.attrs.体质;
     applyYearlyTick(s);
     expect(s.attrs.体质).toBe(before - 1);
   });
 
-  it('does not reduce体质 when post-tick age is 35 (boundary: decay starts at 36+)', () => {
-    // Input age 34 -> after tick age 35 -> no decay (35 is NOT > 35)
-    const s = makeState({ age: 34 });
+  it('does not reduce体质 when post-tick age is 45 (boundary: decay starts at 46+)', () => {
+    // Input age 44 -> after tick age 45 -> no decay (45 is NOT > 45)
+    const s = makeState({ age: 44 });
     const before = s.attrs.体质;
     applyYearlyTick(s);
-    expect(s.age).toBe(35);
+    expect(s.age).toBe(45);
     expect(s.attrs.体质).toBe(before);
   });
 
-  it('reduces体质 when post-tick age is 36 (boundary: first decay year)', () => {
-    // Input age 35 -> after tick age 36 -> decay (36 > 35)
-    const s = makeState({ age: 35 });
+  it('reduces体质 when post-tick age is 46 (boundary: first decay year)', () => {
+    // Input age 45 -> after tick age 46 -> decay (46 > 45)
+    const s = makeState({ age: 45 });
     const before = s.attrs.体质;
     applyYearlyTick(s);
-    expect(s.age).toBe(36);
+    expect(s.age).toBe(46);
     expect(s.attrs.体质).toBe(before - 1);
   });
 
-  it('does not reduce体质 before 35', () => {
+  it('does not reduce体质 before decay age', () => {
     const s = makeState({ age: 30 });
     const before = s.attrs.体质;
     applyYearlyTick(s);

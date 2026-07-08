@@ -335,13 +335,13 @@ export const careerEvents: GameEvent[] = [
           {
             weight: 50,
             condition: { attrGte: { 体质: 35 } },
-            apply: (s) => { s.attrs.体质 += 8; s.attrs.快乐 += 5; s.attrs.财富 -= 5; },
+            apply: (s) => { s.attrs.体质 += 12; s.attrs.快乐 += 5; s.attrs.财富 -= 5; },
             result: '你一周去三次健身房，三个月后指标明显好转。整个人精神状态都不一样了。',
           },
           {
             weight: 50,
             condition: { attrLt: { 体质: 35 } },
-            apply: (s) => { s.attrs.体质 += 2; s.attrs.财富 -= 5; s.attrs.快乐 -= 2; },
+            apply: (s) => { s.attrs.体质 += 3; s.attrs.财富 -= 5; s.attrs.快乐 -= 2; },
             result: '健身卡用了三次就吃灰了。你安慰自己"至少办卡支持了 GDP"。',
           },
         ],
@@ -351,7 +351,7 @@ export const careerEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.体质 += 5; s.attrs.快乐 += 3; s.attrs.财富 -= 2; },
+          apply: (s) => { s.attrs.体质 += 8; s.attrs.快乐 += 3; s.attrs.财富 -= 2; },
           result: '你开始自己做饭，戒掉了宵夜。指标慢慢往回走，虽然慢，但方向是对的。',
         }],
       },

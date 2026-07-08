@@ -104,7 +104,7 @@ export const retirementEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.快乐 += 6; s.attrs.体质 += 4; },
+          apply: (s) => { s.attrs.快乐 += 6; s.attrs.体质 += 6; },
           result: '每天傍晚六点半，你是队伍里动作最整齐的那个。膝盖反而比退休前还好了。',
         }],
       },
@@ -161,7 +161,7 @@ export const retirementEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.快乐 -= 2; s.attrs.体质 += 3; },
+          apply: (s) => { s.attrs.快乐 -= 2; s.attrs.体质 += 5; },
           result: '儿女嘴上抱怨几句，最后请了保姆。你偶尔去看看，反而更亲。',
         }],
       },
@@ -217,7 +217,7 @@ export const retirementEvents: GameEvent[] = [
           {
             weight: 100,
             condition: { attrGte: { 财富: 40 } },
-            apply: (s) => { s.attrs.体质 += 5; s.attrs.财富 -= 15; s.attrs.快乐 -= 3; s.flags.add('choice_hospitalized'); },
+            apply: (s) => { s.attrs.体质 += 8; s.attrs.财富 -= 15; s.attrs.快乐 -= 3; s.flags.add('choice_hospitalized'); },
             result: '请了专家会诊，治疗效果不错。你暗暗庆幸年轻时没全花光。',
           },
           {
@@ -342,7 +342,7 @@ export const retirementEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.快乐 -= 3; s.attrs.体质 += 2; s.flags.add('choice_nursing_home'); },
+          apply: (s) => { s.attrs.快乐 -= 3; s.attrs.体质 += 3; s.flags.add('choice_nursing_home'); },
           result: '养老院有护工、有食堂，但你总坐在窗边看外面的树。孩子们周末有时来，有时不来。',
         }],
       },

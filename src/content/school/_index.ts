@@ -67,7 +67,7 @@ export const schoolEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.智力 += 2; s.attrs.快乐 += 5; s.attrs.体质 += 2; },
+          apply: (s) => { s.attrs.智力 += 2; s.attrs.快乐 += 5; s.attrs.体质 += 3; },
           result: '你按自己的节奏走，心态出奇地好。',
         }],
       },
@@ -87,13 +87,13 @@ export const schoolEvents: GameEvent[] = [
           {
             weight: 50,
             condition: { attrGte: { 体质: 40 } },
-            apply: (s) => { s.attrs.体质 += 8; s.attrs.魅力 += 3; s.flags.add('achievement_school_team'); },
+            apply: (s) => { s.attrs.体质 += 12; s.attrs.魅力 += 3; s.flags.add('achievement_school_team'); },
             result: '你被选进校队，晒黑了但结实了不少。',
           },
           {
             weight: 50,
             condition: { attrLt: { 体质: 40 } },
-            apply: (s) => { s.attrs.体质 += 3; s.attrs.快乐 -= 2; },
+            apply: (s) => { s.attrs.体质 += 5; s.attrs.快乐 -= 2; },
             result: '你跑得气喘吁吁，教练婉拒了你。但至少锻炼了一次。',
           },
         ],
@@ -325,7 +325,7 @@ export const schoolEvents: GameEvent[] = [
         label: '不了，我回家睡觉',
         outcomes: [{
           weight: 100, condition: { all: [] },
-          apply: (s) => { s.attrs.智力 += 3; s.attrs.体质 += 2; },
+          apply: (s) => { s.attrs.智力 += 3; s.attrs.体质 += 3; },
           result: '你拒绝了。周六早上醒来，神清气爽——这感觉真好。',
         }],
       },

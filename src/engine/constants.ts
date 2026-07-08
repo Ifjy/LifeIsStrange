@@ -27,22 +27,22 @@ export const THRESHOLDS = {
 
 // 评分权重（占位，playtest 调）
 export const RATING_WEIGHTS = {
-  attrAvg: 0.6,
-  lifespan: 0.15,
+  attrAvg: 0.55,
+  lifespan: 0.2,
   achievement: 0.15,
   twist: 0.1,
 };
 
 export const RATING_THRESHOLDS = {
-  S: 85,
-  A: 70,
-  B: 55,
-  C: 40,
+  S: 75,
+  A: 60,
+  B: 45,
+  C: 30,
 };
 
 export const BASE_LIFESPAN = 75;
 export const LIFESPAN_VARIANCE = 15;
-export const CONSTITUTION_DECAY_AGE = 35;
+export const CONSTITUTION_DECAY_AGE = 45;
 export const ATTR_FLOOR = 0;
 export const ATTR_CEIL = 100;
 

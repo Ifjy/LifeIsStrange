@@ -28,10 +28,10 @@ describe('calcRating', () => {
     expect(calcRating(s)).toBe('D');
   });
 
-  // 注：brief Step 5 原期望 ['B','C']，但默认 makeState（attrs=50, skills=30）+ age=60
-  // 在权威公式下得 37.06 分 → D。判定逻辑本身已被其它用例覆盖（高→A，低→D）。
-  it('returns D for default makeState at age 60 (spec formula yields 37.06)', () => {
+  // 注：默认 makeState（attrs=50, skills=30）+ age=60 在权威公式下得 37.06 分。
+  // 调整后 C 阈值 30 → 37.06 >= 30 → C。
+  it('returns C for default makeState at age 60 (spec formula yields 37.06, C threshold=30)', () => {
     const s = makeState({ age: 60 });
-    expect(calcRating(s)).toBe('D');
+    expect(calcRating(s)).toBe('C');
   });
 });

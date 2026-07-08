@@ -128,7 +128,7 @@ export const childhoodEvents: GameEvent[] = [
           {
             weight: 50,
             condition: { attrGte: { 体质: 30 } },
-            apply: (s) => { s.attrs.快乐 += 8; s.attrs.体质 += 2; },
+            apply: (s) => { s.attrs.快乐 += 8; s.attrs.体质 += 3; },
             result: '你身手矫健地拿到了薯片，一边看动画一边吃光了。这是人生巅峰。',
           },
           {
@@ -163,13 +163,13 @@ export const childhoodEvents: GameEvent[] = [
           {
             weight: 100,
             condition: { attrGte: { 体质: 35 } },
-            apply: (s) => { s.attrs.体质 += 5; s.attrs.快乐 += 6; s.attrs.魅力 += 3; },
+            apply: (s) => { s.attrs.体质 += 8; s.attrs.快乐 += 6; s.attrs.魅力 += 3; },
             result: '你带队找到了一条小溪，还抓到了蝌蚪。你在小伙伴中威望大涨。',
           },
           {
             weight: 100,
             condition: { attrLt: { 体质: 35 } },
-            apply: (s) => { s.attrs.快乐 += 3; s.attrs.体质 += 2; },
+            apply: (s) => { s.attrs.快乐 += 3; s.attrs.体质 += 3; },
             result: '你摔了一身泥，被蚊子咬了一腿包，但确实是个难忘的下午。',
           },
         ],

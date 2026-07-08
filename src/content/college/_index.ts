@@ -198,7 +198,7 @@ export const collegeEvents: GameEvent[] = [
           {
             weight: 50,
             condition: { attrGte: { 魅力: 35 } },
-            apply: (s) => { s.attrs.快乐 += 5; s.attrs.魅力 += 3; s.attrs.体质 += 3; },
+            apply: (s) => { s.attrs.快乐 += 5; s.attrs.魅力 += 3; s.attrs.体质 += 5; },
             result: '室友有点尴尬，连忙道歉并换了静音鼠标。你们后来处得不错。',
           },
           {
