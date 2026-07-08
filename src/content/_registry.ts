@@ -1,14 +1,18 @@
 // src/content/_registry.ts
 import type { GameEvent, Ending } from '../engine/types';
 import { dreamGaokao } from './college/dream-gaokao';
+import { emigrationDream } from './college/emigration-dream';
 import { overworkCritical } from './chains/overwork-death';
 import { rebornAsGaokaoEnding } from './endings/reborn-as-gaokao';
 import { underworldHrEnding } from './endings/underworld-hr';
 import { secretReading } from './school/secret-reading';
 import { slackerWriting } from './chains/slacker-author';
 import { internetViral } from './chains/internet-star';
+import { emigrationAbroad } from './chains/emigration-abroad';
 import { slackerAuthorEnding } from './endings/slacker-author';
 import { internetStarEnding } from './endings/internet-star';
+import { globalExecutiveEnding } from './endings/global-executive';
+import { homesickReturneeEnding } from './endings/homesick-returnee';
 import { cyberbullyVictimEnding } from './endings/cyberbully-victim';
 import { internetDream } from './school/internet-dream';
 import { childhoodEvents } from './childhood/_index';
@@ -55,10 +59,12 @@ export const ALL_EVENTS: GameEvent[] = [
   dreamGaokao,
   secretReading,
   internetDream,
+  emigrationDream,
   // 招牌链
   overworkCritical,
   slackerWriting,
   internetViral,
+  emigrationAbroad,
   // 流程保底
   ...childhoodEvents,
   ...schoolEvents,
@@ -77,8 +83,10 @@ export const ALL_ENDINGS: Ending[] = [
   rebornAsGaokaoEnding,  // priority 90
   slackerAuthorEnding,   // priority 90
   internetStarEnding,    // priority 90
+  globalExecutiveEnding, // priority 90
   monkEnding,            // priority 70
   cyberbullyVictimEnding,// priority 60
+  homesickReturneeEnding,// priority 55
   richEnding,            // priority 50
   happyFamilyEnding,     // priority 50
   earlyDeathEnding,      // priority 40
