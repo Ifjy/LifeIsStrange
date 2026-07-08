@@ -17,6 +17,7 @@ function continueGame() {
     <div class="actions">
       <button class="primary" @click="startNew">开始新人生</button>
       <button v-if="store.checkHasSave()" @click="continueGame">继续上局</button>
+      <button @click="store.setView('endings')">结局图鉴</button>
       <button @click="store.setView('settings')">设置</button>
     </div>
   </div>

@@ -12,7 +12,7 @@ import { BASE_LIFESPAN, LIFESPAN_VARIANCE } from '../engine/constants';
 import { ALL_EVENTS, ALL_ENDINGS, findEvent } from '../content/_registry';
 import type { Outcome, GameEvent } from '../engine/types';
 
-type View = 'start' | 'game' | 'ending' | 'settings';
+type View = 'start' | 'game' | 'ending' | 'settings' | 'endings';
 
 export const useGameStore = defineStore('game', () => {
   const state = ref<GameState | null>(null);

@@ -3,6 +3,7 @@ import { useGameStore } from './stores/game';
 import StartView from './views/StartView.vue';
 import GameView from './views/GameView.vue';
 import EndingView from './views/EndingView.vue';
+import EndingsView from './views/EndingsView.vue';
 import SettingsView from './views/SettingsView.vue';
 
 const store = useGameStore();
@@ -12,5 +13,6 @@ const store = useGameStore();
   <StartView v-if="store.view === 'start'" />
   <GameView v-else-if="store.view === 'game'" />
   <EndingView v-else-if="store.view === 'ending'" />
+  <EndingsView v-else-if="store.view === 'endings'" />
   <SettingsView v-else-if="store.view === 'settings'" />
 </template>
