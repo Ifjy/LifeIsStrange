@@ -229,7 +229,12 @@ export const schoolEvents: GameEvent[] = [
         label: '假装没看见，快步走开',
         outcomes: [{
           weight: 100, condition: { all: [] },
-          apply: (s) => { s.attrs.快乐 -= 5; s.attrs.智力 += 2; },
+          apply: (s) => {
+            s.attrs.快乐 -= 5;
+            s.attrs.智力 += 2;
+            s.flags.add('choice_stayed_silent');
+          },
+          followUp: 'school_bullying_guilt',
           result: '你走开了。但这件事在很长一段时间里，会突然在你脑海里回放。',
         }],
       },

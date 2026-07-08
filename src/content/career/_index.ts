@@ -254,7 +254,13 @@ export const careerEvents: GameEvent[] = [
           {
             weight: 50,
             condition: { attrLt: { 运气: 50 } },
-            apply: (s) => { s.attrs.快乐 -= 6; s.attrs.财富 -= 3; s.skills.软 += 3; },
+            apply: (s) => {
+              s.attrs.快乐 -= 6;
+              s.attrs.财富 -= 3;
+              s.skills.软 += 3;
+              s.flags.add('choice_picked_wrong_side');
+            },
+            followUp: 'career_office_politics_backlash',
             result: 'A 领导被调走了。新来的领导对你的"站队"心知肚明，从此你坐冷板凳。',
           },
         ],
@@ -360,7 +366,13 @@ export const careerEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.体质 -= 8; s.attrs.财富 += 5; s.attrs.快乐 -= 3; },
+          apply: (s) => {
+            s.attrs.体质 -= 8;
+            s.attrs.财富 += 5;
+            s.attrs.快乐 -= 3;
+            s.flags.add('choice_ignored_health_warning');
+          },
+          followUp: 'career_health_warning_hospital',
           result: '你把报告塞进抽屉。半年后复查，指标更难看了，医生的表情也严肃了起来。',
         }],
       },

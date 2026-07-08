@@ -20,6 +20,9 @@ import { schoolEvents } from './school/_index';
 import { collegeEvents } from './college/_index';
 import { careerEvents } from './career/_index';
 import { retirementEvents } from './retirement/_index';
+import { healthWarningHospital } from './career/health-warning-hospital';
+import { officePoliticsBacklash } from './career/office-politics-backlash';
+import { bullyingGuilt } from './school/bullying-guilt';
 import { crisisLowHappiness } from './thresholds/crisis-low-happiness';
 import { crisisLowConstitution } from './thresholds/crisis-low-constitution';
 import { peakHighCombined } from './thresholds/peak-high-combined';
@@ -81,6 +84,10 @@ export const ALL_EVENTS: GameEvent[] = [
   ...collegeEvents,
   ...careerEvents,
   ...retirementEvents,
+  // followUp 试点事件（baseWeight=0，靠 followUp 机制触发）
+  healthWarningHospital,
+  officePoliticsBacklash,
+  bullyingGuilt,
   // 阈值事件（baseWeight=0，由 detectThresholdEvents 检测）
   crisisLowHappiness,
   crisisLowConstitution,
