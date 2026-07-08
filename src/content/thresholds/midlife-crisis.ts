@@ -10,7 +10,7 @@ export const midlifeCrisis: GameEvent = {
     baseWeight: 0,
     requires: [{ notFlag: 'midlife_crisis_fired' }],
   },
-  text: '四十不惑？你觉得自己越活越迷糊。',
+  text: '四十岁这一年，你忽然停下来想——都说四十不惑，可你越活越迷糊了。是时候重新审视一下人生。',
   choices: [
     {
       label: '事业巅峰，危机解除',

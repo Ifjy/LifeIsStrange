@@ -99,11 +99,15 @@ export const useGameStore = defineStore('game', () => {
   function startYear() {
     if (!state.value) return;
     rng.value = mulberry32(state.value.meta.seed + state.value.age * 7919);
-    const ids = selectEventsForYear(ALL_EVENTS, state.value, rng.value);
     const thresholdIds = detectThresholdEvents(
       ALL_EVENTS.filter((e) => e.trigger.baseWeight === 0), state.value,
     );
-    currentEventIds.value = [...ids, ...thresholdIds];
+    if (thresholdIds.length > 0) {
+      // 阈值事件（危机/巅峰/中年危机）成为那一年的主线（"今年是转折年"），不再抽流程事件
+      currentEventIds.value = thresholdIds;
+    } else {
+      currentEventIds.value = selectEventsForYear(ALL_EVENTS, state.value, rng.value);
+    }
     eventQueueIndex.value = 0;
     loadCurrentEvent();
   }
@@ -146,7 +150,12 @@ export const useGameStore = defineStore('game', () => {
       ALL_EVENTS.filter((e) => e.trigger.baseWeight === 0), state.value,
     );
     if (moreThreshold.length > 0) {
-      currentEventIds.value = [...currentEventIds.value, ...moreThreshold];
+      // 阈值事件插队到当前位置（阈值优先语义），下一个就播而非排到队尾
+      currentEventIds.value = [
+        ...currentEventIds.value.slice(0, eventQueueIndex.value),
+        ...moreThreshold,
+        ...currentEventIds.value.slice(eventQueueIndex.value),
+      ];
     }
     loadCurrentEvent();
   }

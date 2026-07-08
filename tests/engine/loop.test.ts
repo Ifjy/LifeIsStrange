@@ -11,10 +11,10 @@ describe('selectEventsForYear', () => {
     expect(selectEventsForYear([sampleEvent], s, rngFor(1))).toEqual(['forced_next']);
   });
 
-  it('returns 0-3 events otherwise', () => {
+  it('returns 0-1 events otherwise (one weighted draw per year)', () => {
     const s = makeState();
     const result = selectEventsForYear([sampleEvent], s, rngFor(1));
-    expect(result.length).toBeLessThanOrEqual(3);
+    expect(result.length).toBeLessThanOrEqual(1);
   });
 
   it('returns empty array when no events are eligible', () => {
@@ -23,8 +23,8 @@ describe('selectEventsForYear', () => {
     expect(result).toEqual([]);
   });
 
-  it('respects baseWeight as probability (baseWeight/10)', () => {
-    // baseWeight 0 -> never picked
+  it('zero-weight event is never picked (acts as threshold-event filter)', () => {
+    // baseWeight 0 -> relative weight 0 -> never drawn (handled by detectThresholdEvents instead)
     const zeroWeight: GameEvent = {
       ...sampleEvent,
       id: 'zero_weight',
@@ -35,15 +35,16 @@ describe('selectEventsForYear', () => {
     expect(result).not.toContain('zero_weight');
   });
 
-  it('caps at 3 events even when more are eligible', () => {
+  it('picks exactly 1 event by weight when multiple are eligible', () => {
     const events: GameEvent[] = Array.from({ length: 5 }, (_, i) => ({
       ...sampleEvent,
       id: `ev_${i}`,
-      trigger: { baseWeight: 10 }, // prob = 1.0, always picked
+      trigger: { baseWeight: 10 },
     }));
     const s = makeState();
     const result = selectEventsForYear(events, s, rngFor(1));
-    expect(result.length).toBe(3);
+    expect(result.length).toBe(1);
+    expect(events.some((e) => e.id === result[0])).toBe(true);
   });
 });
 

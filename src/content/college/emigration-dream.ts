@@ -6,7 +6,7 @@ export const emigrationDream: GameEvent = {
   stage: 'college',
   ageRange: [19, 22],
   once: true,
-  trigger: { baseWeight: 4 },
+  trigger: { baseWeight: 2 },
   text: '学校举办了一场海外交换生宣讲会，PPT 上全是异国街景和实验室。你坐在后排，心里痒痒的。',
   choices: [
     {

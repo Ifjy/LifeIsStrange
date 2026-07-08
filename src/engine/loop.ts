@@ -5,13 +5,17 @@ import { evaluateCondition } from './condition';
 import { STAGE_OF_AGE, CONSTITUTION_DECAY_AGE, clampAttr, THRESHOLDS } from './constants';
 
 /**
- * Select 0-3 event IDs for the current year.
+ * Select 0 or 1 event ID for the current year (weighted draw).
  *
  * Priority:
  * 1. If state.nextEvent is set (招牌链强制触发), return [nextEvent] only.
- * 2. Otherwise, filter eligible events and independently sample each one
- *    using baseWeight/10 as its trigger probability (capped at 1.0).
- *    Stops after 3 picks.
+ * 2. Otherwise, filter eligible events and draw ONE by weight.
+ *    baseWeight acts as relative weight (not independent probability).
+ *    baseWeight=0 events (threshold events) never get drawn here —— they are
+ *    handled separately by detectThresholdEvents.
+ *
+ * Rationale: one event per year keeps narrative coherent (避免一年塞三件大事
+ * 导致叙事断裂). Threshold events are layered on top via startYear logic.
  */
 export function selectEventsForYear(
   events: ReadonlyArray<GameEvent>,
@@ -24,15 +28,19 @@ export function selectEventsForYear(
   const eligible = filterEligible(events, state);
   if (eligible.length === 0) return [];
 
-  // 每个 eligible 事件独立按 baseWeight 抽：
-  // baseWeight 10 = 1.0 概率，baseWeight 0 = 永不触发
-  const picked: string[] = [];
+  // 加权抽签：baseWeight 作为相对权重
+  // baseWeight=0 的事件权重为 0，永远不会被抽中（阈值事件由 detectThresholdEvents 处理）
+  const totalWeight = eligible.reduce((sum, e) => sum + Math.max(0, e.trigger.baseWeight), 0);
+  if (totalWeight <= 0) return [];
+
+  const roll = rng() * totalWeight;
+  let acc = 0;
   for (const ev of eligible) {
-    const prob = Math.min(1, ev.trigger.baseWeight / 10);
-    if (rng() < prob) picked.push(ev.id);
-    if (picked.length >= 3) break;
+    acc += Math.max(0, ev.trigger.baseWeight);
+    if (roll < acc) return [ev.id];
   }
-  return picked;
+  // 浮点兜底
+  return [eligible[eligible.length - 1].id];
 }
 
 /**

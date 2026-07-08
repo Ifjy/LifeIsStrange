@@ -13,7 +13,7 @@ export const peakHighCombined: GameEvent = {
     // 注：复合条件 happy+wealth>150 不能用单个 Condition 表达，需要 loop 主动检查
     // 这里 requires 只挡 flag，实际触发在 loop 里手动判断
   },
-  text: '你的人生达到了前所未有的高度。财富和快乐同时爆表。',
+  text: '这一年，你忽然意识到——你的人生达到了前所未有的高度。财富与快乐同时爆表，站在巅峰的你，得想想接下来怎么走。',
   choices: [
     {
       label: '继续冲刺，野心不止',

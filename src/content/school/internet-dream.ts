@@ -6,7 +6,7 @@ export const internetDream: GameEvent = {
   stage: 'school',
   ageRange: [13, 15],
   once: true,
-  trigger: { baseWeight: 4 },
+  trigger: { baseWeight: 2 },
   text: '你第一次把一段自己拍的视频传到网上，紧张地盯着屏幕刷新。评论区慢慢多了起来。',
   choices: [
     {

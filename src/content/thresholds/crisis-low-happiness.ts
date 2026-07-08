@@ -14,7 +14,7 @@ export const crisisLowHappiness: GameEvent = {
       { notFlag: 'crisis_low_happiness_fired' },
     ],
   },
-  text: '你最近常常失眠，对什么都提不起兴趣。是时候做点什么了。',
+  text: '这一年，你终于承认——最近常常失眠，对什么都提不起兴趣。再这样下去不行了，得做点什么。',
   choices: [
     {
       label: '找朋友倾诉',

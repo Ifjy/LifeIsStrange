@@ -6,7 +6,7 @@ export const secretReading: GameEvent = {
   stage: 'school',
   ageRange: [12, 17],
   once: true,
-  trigger: { baseWeight: 5 },
+  trigger: { baseWeight: 2 },
   text: '你躲在课桌下偷看小说，被老师抓个正着。老师叹了口气：「爱看书不是坏事，但别在上课时。」',
   choices: [
     {

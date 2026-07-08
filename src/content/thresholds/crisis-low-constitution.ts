@@ -14,7 +14,7 @@ export const crisisLowConstitution: GameEvent = {
       { notFlag: 'crisis_low_constitution_fired' },
     ],
   },
-  text: '你最近总是胸闷气短，体重也涨了不少。',
+  text: '这一年，身体给你下了最后通牒——胸闷气短，体重飙升。它不再是从前那个任你挥霍的容器了。',
   choices: [
     {
       label: '住院体检',

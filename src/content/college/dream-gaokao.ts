@@ -6,7 +6,7 @@ export const dreamGaokao: GameEvent = {
   stage: 'college',
   ageRange: [19, 22],
   once: true,
-  trigger: { baseWeight: 5 },
+  trigger: { baseWeight: 2 },
   text: '你做了一个梦，梦里又回到了高考考场，笔尖发抖，却奇怪地看懂了所有题……醒来只剩恍惚。',
   choices: [{
     label: '继续',
