@@ -27,7 +27,11 @@ export const healthWarningHospital: GameEvent = {
       outcomes: [{
         weight: 100,
         condition: { all: [] },
-        apply: (s) => { s.attrs.体质 -= 10; s.attrs.快乐 -= 5; },
+        apply: (s) => {
+          s.attrs.体质 -= 10;
+          s.attrs.快乐 -= 5;
+          s.flags.delete('choice_ignored_health_warning');
+        },
         result: '你拖着没好的身体回了公司。同事看你的眼神，像在看一个不要命的人。',
       }],
     },

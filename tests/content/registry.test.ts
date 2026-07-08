@@ -26,6 +26,16 @@ describe('content registry', () => {
         }
       }
     }
+    // Validate followUp references (parallel to nextEvent check above)
+    for (const ev of ALL_EVENTS) {
+      for (const c of ev.choices) {
+        for (const o of c.outcomes) {
+          if (o.followUp && !eventIds.has(o.followUp) && !endingIds.has(o.followUp)) {
+            throw new Error(`Event ${ev.id} references unknown followUp: ${o.followUp}`);
+          }
+        }
+      }
+    }
   });
 
   it('exactly one default ending (priority 0, condition true)', () => {

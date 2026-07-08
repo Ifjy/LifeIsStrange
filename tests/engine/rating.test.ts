@@ -28,9 +28,9 @@ describe('calcRating', () => {
     expect(calcRating(s)).toBe('D');
   });
 
-  // 注：默认 makeState（attrs=50, skills=30）+ age=60 在权威公式下得 37.06 分。
-  // 调整后 C 阈值 30 → 37.06 >= 30 → C。
-  it('returns C for default makeState at age 60 (spec formula yields 37.06, C threshold=30)', () => {
+  // 注：默认 makeState（attrs=50, skills=30）+ age=60 在权威公式下得 38.58 分。
+  // 调整后 C 阈值 30 → 38.58 >= 30 → C。
+  it('returns C for default makeState at age 60 (spec formula yields 38.58, C threshold=30)', () => {
     const s = makeState({ age: 60 });
     expect(calcRating(s)).toBe('C');
   });

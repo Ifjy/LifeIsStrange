@@ -47,7 +47,7 @@ export function selectEventsForYear(
  * Advance the state by one year:
  * - age += 1
  * - stage updated to match new age
- * - 体质 -1 when post-tick age > 35 (i.e. decay starts at age 36)
+ * - 体质 -1 when post-tick age > CONSTITUTION_DECAY_AGE (currently 45, decay starts at age 46)
  * - clamp all attrs to [0, 100] defensively
  */
 export function applyYearlyTick(state: GameState): void {
