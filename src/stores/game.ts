@@ -30,6 +30,7 @@ export const useGameStore = defineStore('game', () => {
   const hasOngoingGame = computed(() => state.value !== null && view.value === 'game');
 
   function newGame(seed: number, carryover?: GameState['meta']['carryover']) {
+    totalPlaythroughs.value += 1;
     const attrs = {
       智力: 30 + Math.floor(seedRandom(seed, 1) * 21),
       魅力: 30 + Math.floor(seedRandom(seed, 2) * 21),
@@ -45,7 +46,7 @@ export const useGameStore = defineStore('game', () => {
       skills: { 硬: 0, 软: 0, 摸: 0 },
       flags: new Set(),
       history: [],
-      meta: { seed, playthrough: totalPlaythroughs.value + 1, carryover },
+      meta: { seed, playthrough: totalPlaythroughs.value, carryover },
     };
     // 应用 NG+ 继承
     if (carryover === 'intelligence') state.value.attrs.智力 += 15;
@@ -56,6 +57,8 @@ export const useGameStore = defineStore('game', () => {
     currentEventIds.value = [];
     eventQueueIndex.value = 0;
     currentEndingId.value = null;
+    currentEvent.value = null;
+    lastOutcome.value = null;
   }
 
   function persist() {
