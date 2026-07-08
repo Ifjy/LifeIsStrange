@@ -44,7 +44,9 @@ function pickRandomChoice(choices: Choice[], rng: () => number): Choice {
 
 /**
  * 模拟一局完整人生。uniform 随机选 choice，模拟无偏见玩家。
- * 复刻 store 的 startYear/selectChoice/advanceYear 流程，但全用纯函数。
+ * 复刻 store 的 startYear/selectChoice 流程，但全用纯函数：
+ * - 结局 outcome 跳过年度 tick（与 store finalizeEnding 一致）
+ * - undefined outcome 只推进队列（与 store 一致，不做阈值重检）
  */
 export function runOneGame(seed: number): GameResult {
   const state = makeInitialState(seed);
@@ -74,10 +76,14 @@ export function runOneGame(seed: number): GameResult {
       const choice = pickRandomChoice(ev.choices, yearRng);
       const outcome: Outcome | undefined = resolveChoice(choice, state, yearRng);
 
-      if (outcome) {
-        applyOutcomeToState(state, outcome, eventId);
-        if (outcome.nextEvent?.startsWith('ending_')) break; // 进结局，结束当年
+      if (!outcome) {
+        // 与 store 一致：undefined outcome 只推进队列，不做阈值重检（state 未变）
+        queueIndex++;
+        continue;
       }
+
+      applyOutcomeToState(state, outcome, eventId);
+      if (outcome.nextEvent?.startsWith('ending_')) break; // 进结局，结束当年
 
       queueIndex++;
       // 阈值重检（与 store.selectChoice 一致：传当前 queue 防重）
@@ -87,10 +93,12 @@ export function runOneGame(seed: number): GameResult {
       }
     }
 
+    // 如果当年直接进入结局，跳过年度 tick（与 store 一致：finalizeEnding 不 tick）
+    if (state.nextEvent?.startsWith('ending_')) break;
+
     // advanceYear
     applyYearlyTick(state);
     if (checkDeath(state, lifespan)) break;
-    if (state.nextEvent?.startsWith('ending_')) break;
   }
 
   const ending = resolveEnding(ALL_ENDINGS, state);
