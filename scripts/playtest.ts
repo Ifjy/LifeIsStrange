@@ -115,4 +115,76 @@ export function runOneGame(seed: number): GameResult {
   };
 }
 
-// Task 4 会在此追加 runManyGames + 报告输出 + main 入口
+export function runManyGames(n: number, seedStart = 1): GameResult[] {
+  const results: GameResult[] = [];
+  for (let i = 0; i < n; i++) {
+    results.push(runOneGame(seedStart + i));
+  }
+  return results;
+}
+
+const attrKeys: Array<keyof Attrs> = ['智力', '魅力', '体质', '运气', '财富', '快乐'];
+
+function avg(nums: number[]): number {
+  return nums.length === 0 ? 0 : Math.round(nums.reduce((a, b) => a + b, 0) / nums.length);
+}
+
+export function printReport(results: GameResult[]): void {
+  const n = results.length;
+  console.log(`\n===== Playtest Report (${n} 局) =====\n`);
+
+  // 1. 属性终值
+  console.log('属性终值 (min / avg / max):');
+  for (const k of attrKeys) {
+    const vals = results.map((r) => r.attrs[k]);
+    console.log(`  ${k}: ${Math.min(...vals)} / ${avg(vals)} / ${Math.max(...vals)}`);
+  }
+  console.log('');
+
+  // 2. 评分分布
+  const ratingCounts: Record<Rating, number> = { S: 0, A: 0, B: 0, C: 0, D: 0 };
+  for (const r of results) ratingCounts[r.rating]++;
+  console.log('评分分布:');
+  (['S', 'A', 'B', 'C', 'D'] as Rating[]).forEach((rt) => {
+    const c = ratingCounts[rt];
+    console.log(`  ${rt}: ${c} (${Math.round((c / n) * 100)}%)`);
+  });
+  console.log('');
+
+  // 3. 结局分布
+  const endingCounts = new Map<string, number>();
+  for (const r of results) endingCounts.set(r.endingId, (endingCounts.get(r.endingId) ?? 0) + 1);
+  console.log('结局分布 (出现次数):');
+  const endings = [...endingCounts.entries()].sort((a, b) => b[1] - a[1]);
+  for (const [id, c] of endings) {
+    console.log(`  ${id}: ${c} (${Math.round((c / n) * 100)}%)`);
+  }
+  console.log('');
+
+  // 4. 事件触达率
+  const eventCounts = new Map<string, number>();
+  for (const r of results) {
+    const seen = new Set(r.eventsEncountered);
+    for (const id of seen) eventCounts.set(id, (eventCounts.get(id) ?? 0) + 1);
+  }
+  console.log('事件触达率 (按比例排序，<10% 标记):');
+  const events = [...eventCounts.entries()].sort((a, b) => b[1] - a[1]);
+  for (const [id, c] of events) {
+    const pct = Math.round((c / n) * 100);
+    const flag = pct < 10 ? ' ⚠️' : '';
+    console.log(`  ${id}: ${pct}%${flag}`);
+  }
+  console.log('');
+
+  // 5. 寿命与选择密度
+  console.log('其他:');
+  console.log(`  平均死亡年龄: ${avg(results.map((r) => r.age))}`);
+  console.log(`  平均选择数/局: ${avg(results.map((r) => r.choiceCount))}`);
+  console.log('');
+}
+
+// main
+const N = parseInt(process.argv[2] ?? '100', 10);
+const seedStart = parseInt(process.argv[3] ?? '1', 10);
+const results = runManyGames(N, seedStart);
+printReport(results);
