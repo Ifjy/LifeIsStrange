@@ -132,3 +132,22 @@ export function detectThresholdEvents(
   }
   return triggered;
 }
+
+/**
+ * Insert `newIds` into a copy of `queue` at position `index`. Immutable.
+ *
+ * Shared by store.selectChoice (阈值插队 + followUp) and the playtest
+ * simulator to avoid logic drift.
+ */
+export function insertEventsAt(
+  queue: readonly string[],
+  index: number,
+  newIds: readonly string[],
+): string[] {
+  if (newIds.length === 0) return [...queue];
+  return [
+    ...queue.slice(0, index),
+    ...newIds,
+    ...queue.slice(index),
+  ];
+}

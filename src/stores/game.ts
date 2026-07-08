@@ -5,7 +5,7 @@ import type { GameState } from '../engine/types';
 import { STAGE_OF_AGE } from '../engine/constants';
 import { loadGame, saveGame, clearSave, hasSave, type SaveData } from '../utils/save';
 import { resolveChoice } from '../engine/outcome';
-import { selectEventsForYear, applyYearlyTick, applyOutcomeToState, checkDeath, detectThresholdEvents } from '../engine/loop';
+import { selectEventsForYear, applyYearlyTick, applyOutcomeToState, checkDeath, detectThresholdEvents, insertEventsAt } from '../engine/loop';
 import { resolveEnding } from '../engine/ending';
 import { mulberry32 } from '../engine/rng';
 import { BASE_LIFESPAN, LIFESPAN_VARIANCE } from '../engine/constants';
@@ -151,12 +151,7 @@ export const useGameStore = defineStore('game', () => {
       ALL_EVENTS.filter((e) => e.trigger.baseWeight === 0), state.value, currentEventIds.value,
     );
     if (moreThreshold.length > 0) {
-      // 阈值事件插队到当前位置（阈值优先语义），下一个就播而非排到队尾
-      currentEventIds.value = [
-        ...currentEventIds.value.slice(0, eventQueueIndex.value),
-        ...moreThreshold,
-        ...currentEventIds.value.slice(eventQueueIndex.value),
-      ];
+      currentEventIds.value = insertEventsAt(currentEventIds.value, eventQueueIndex.value, moreThreshold);
     }
     loadCurrentEvent();
   }

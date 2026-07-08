@@ -1,6 +1,6 @@
 // tests/engine/loop.test.ts
 import { describe, it, expect } from 'vitest';
-import { selectEventsForYear, applyYearlyTick, checkDeath, applyOutcomeToState, detectThresholdEvents } from '../../src/engine/loop';
+import { selectEventsForYear, applyYearlyTick, checkDeath, applyOutcomeToState, detectThresholdEvents, insertEventsAt } from '../../src/engine/loop';
 import { makeState, sampleEvent, rngFor } from '../fixtures';
 import { THRESHOLDS, BASE_LIFESPAN } from '../../src/engine/constants';
 import type { GameEvent } from '../../src/engine/types';
@@ -198,5 +198,29 @@ describe('detectThresholdEvents', () => {
   it('excludes events already processed (in history)', () => {
     const s = makeState({ history: ['threshold_test'] });
     expect(detectThresholdEvents([thresholdEv], s)).not.toContain('threshold_test');
+  });
+});
+
+describe('insertEventsAt', () => {
+  it('inserts ids at the given index', () => {
+    expect(insertEventsAt(['a', 'b'], 1, ['x'])).toEqual(['a', 'x', 'b']);
+  });
+
+  it('inserts multiple ids at index 0', () => {
+    expect(insertEventsAt(['a', 'b'], 0, ['x', 'y'])).toEqual(['x', 'y', 'a', 'b']);
+  });
+
+  it('appends when index equals length', () => {
+    expect(insertEventsAt(['a'], 1, ['z'])).toEqual(['a', 'z']);
+  });
+
+  it('returns input unchanged when newIds is empty', () => {
+    expect(insertEventsAt(['a', 'b'], 1, [])).toEqual(['a', 'b']);
+  });
+
+  it('does not mutate the input array', () => {
+    const input = ['a', 'b'];
+    insertEventsAt(input, 1, ['x']);
+    expect(input).toEqual(['a', 'b']); // 原数组不变
   });
 });
