@@ -146,6 +146,10 @@ export const useGameStore = defineStore('game', () => {
     if (moreThreshold.length > 0) {
       currentEventIds.value = insertEventsAt(currentEventIds.value, eventQueueIndex.value, moreThreshold);
     }
+    // followUp：选择的回响，插入到当前位置之后（下一个就处理）
+    if (outcome.followUp) {
+      currentEventIds.value = insertEventsAt(currentEventIds.value, eventQueueIndex.value, [outcome.followUp]);
+    }
     loadCurrentEvent();
   }
 

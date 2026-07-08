@@ -91,6 +91,9 @@ export function runOneGame(seed: number): GameResult {
       if (moreThreshold.length > 0) {
         queue = insertEventsAt(queue, queueIndex, moreThreshold);
       }
+      if (outcome.followUp) {
+        queue = insertEventsAt(queue, queueIndex, [outcome.followUp]);
+      }
     }
 
     // 如果当年直接进入结局，跳过年度 tick（与 store 一致：finalizeEnding 不 tick）

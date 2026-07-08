@@ -37,6 +37,8 @@ export interface Outcome {
   apply: (s: GameState) => void;
   result: string;
   nextEvent?: string;
+  /** 事件 id：选择后插入到当前队列位置之后（下一个就处理）。不清空队列、不占下一年名额。 */
+  followUp?: string;
 }
 
 export interface Choice {
