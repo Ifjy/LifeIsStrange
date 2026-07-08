@@ -1,5 +1,5 @@
 // src/engine/loop.ts
-import type { GameState, GameEvent, Outcome } from './types';
+import type { GameState, GameEvent, Outcome, Attrs } from './types';
 import { filterEligible } from './trigger';
 import { evaluateCondition } from './condition';
 import { STAGE_OF_AGE, CONSTITUTION_DECAY_AGE, clampAttr, THRESHOLDS } from './constants';
@@ -150,4 +150,28 @@ export function insertEventsAt(
     ...newIds,
     ...queue.slice(index),
   ];
+}
+
+/**
+ * Deterministic 6-attr initialization from a seed. Shared by store.newGame
+ * and the playtest simulator to guarantee identical starting conditions.
+ *
+ * Each attr lands in [30, 50]. Uses the same hash as the legacy seedRandom.
+ */
+export function createInitialAttrs(seed: number): Attrs {
+  return {
+    智力: 30 + Math.floor(seedHash(seed, 1) * 21),
+    魅力: 30 + Math.floor(seedHash(seed, 2) * 21),
+    体质: 30 + Math.floor(seedHash(seed, 3) * 21),
+    运气: 30 + Math.floor(seedHash(seed, 4) * 21),
+    财富: 30 + Math.floor(seedHash(seed, 5) * 21),
+    快乐: 30 + Math.floor(seedHash(seed, 6) * 21),
+  };
+}
+
+function seedHash(seed: number, n: number): number {
+  let x = seed + n * 2654435761;
+  x = Math.imul(x ^ (x >>> 15), 2246822507);
+  x = Math.imul(x ^ (x >>> 13), 3266489909);
+  return ((x ^ (x >>> 16)) >>> 0) / 4294967296;
 }

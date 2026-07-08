@@ -5,7 +5,7 @@ import type { GameState } from '../engine/types';
 import { STAGE_OF_AGE } from '../engine/constants';
 import { loadGame, saveGame, clearSave, hasSave, type SaveData } from '../utils/save';
 import { resolveChoice } from '../engine/outcome';
-import { selectEventsForYear, applyYearlyTick, applyOutcomeToState, checkDeath, detectThresholdEvents, insertEventsAt } from '../engine/loop';
+import { selectEventsForYear, applyYearlyTick, applyOutcomeToState, checkDeath, detectThresholdEvents, insertEventsAt, createInitialAttrs } from '../engine/loop';
 import { resolveEnding } from '../engine/ending';
 import { mulberry32 } from '../engine/rng';
 import { BASE_LIFESPAN, LIFESPAN_VARIANCE } from '../engine/constants';
@@ -31,14 +31,7 @@ export const useGameStore = defineStore('game', () => {
 
   function newGame(seed: number, carryover?: GameState['meta']['carryover']) {
     totalPlaythroughs.value += 1;
-    const attrs = {
-      智力: 30 + Math.floor(seedRandom(seed, 1) * 21),
-      魅力: 30 + Math.floor(seedRandom(seed, 2) * 21),
-      体质: 30 + Math.floor(seedRandom(seed, 3) * 21),
-      运气: 30 + Math.floor(seedRandom(seed, 4) * 21),
-      财富: 30 + Math.floor(seedRandom(seed, 5) * 21),
-      快乐: 30 + Math.floor(seedRandom(seed, 6) * 21),
-    };
+    const attrs = createInitialAttrs(seed);
     state.value = {
       age: 1,
       stage: 'childhood',
@@ -184,11 +177,3 @@ export const useGameStore = defineStore('game', () => {
     startYear, selectChoice, advanceYear,
   };
 });
-
-function seedRandom(seed: number, n: number): number {
-  // 简单确定性 hash，给 newGame 起手属性用
-  let x = seed + n * 2654435761;
-  x = Math.imul(x ^ (x >>> 15), 2246822507);
-  x = Math.imul(x ^ (x >>> 13), 3266489909);
-  return ((x ^ (x >>> 16)) >>> 0) / 4294967296;
-}

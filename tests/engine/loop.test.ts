@@ -1,6 +1,6 @@
 // tests/engine/loop.test.ts
 import { describe, it, expect } from 'vitest';
-import { selectEventsForYear, applyYearlyTick, checkDeath, applyOutcomeToState, detectThresholdEvents, insertEventsAt } from '../../src/engine/loop';
+import { selectEventsForYear, applyYearlyTick, checkDeath, applyOutcomeToState, detectThresholdEvents, insertEventsAt, createInitialAttrs } from '../../src/engine/loop';
 import { makeState, sampleEvent, rngFor } from '../fixtures';
 import { THRESHOLDS, BASE_LIFESPAN } from '../../src/engine/constants';
 import type { GameEvent } from '../../src/engine/types';
@@ -222,5 +222,24 @@ describe('insertEventsAt', () => {
     const input = ['a', 'b'];
     insertEventsAt(input, 1, ['x']);
     expect(input).toEqual(['a', 'b']); // 原数组不变
+  });
+});
+
+describe('createInitialAttrs', () => {
+  it('produces all 6 attributes in 30-50 range for a given seed', () => {
+    const attrs = createInitialAttrs(12345);
+    const keys: Array<keyof typeof attrs> = ['智力', '魅力', '体质', '运气', '财富', '快乐'];
+    for (const k of keys) {
+      expect(attrs[k]).toBeGreaterThanOrEqual(30);
+      expect(attrs[k]).toBeLessThanOrEqual(50);
+    }
+  });
+
+  it('is deterministic for the same seed', () => {
+    expect(createInitialAttrs(999)).toEqual(createInitialAttrs(999));
+  });
+
+  it('differs for different seeds', () => {
+    expect(createInitialAttrs(1)).not.toEqual(createInitialAttrs(2));
   });
 });
