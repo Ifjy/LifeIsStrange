@@ -101,16 +101,24 @@ export function applyOutcomeToState(state: GameState, outcome: Outcome, eventId:
  * Compound conditions (e.g. 快乐+财富>150, age in [40,50]) that cannot be
  * expressed in a single Condition are handled via special-case branches here.
  *
+ * `pendingQueue` excludes IDs already waiting in the event queue (detected but
+ * not yet processed). Without this, a threshold event detected at startYear
+ * would be re-detected by selectChoice and inserted again —— causing the
+ * "四十不惑/财富巅峰 重复出现" bug.
+ *
  * Returns an array of event IDs to append to the event queue.
  */
 export function detectThresholdEvents(
   thresholdEvents: ReadonlyArray<GameEvent>,
   state: GameState,
+  pendingQueue: ReadonlyArray<string> = [],
 ): string[] {
+  const queued = new Set(pendingQueue);
   const triggered: string[] = [];
   for (const ev of thresholdEvents) {
     if (ev.trigger.baseWeight > 0) continue; // 只看 baseWeight=0 的阈值事件
-    if (state.history.includes(ev.id)) continue;
+    if (state.history.includes(ev.id)) continue; // 已处理过
+    if (queued.has(ev.id)) continue; // 已在待处理队列里，不重复检测
     if (!ev.trigger.requires?.every((c) => evaluateCondition(c, state))) continue;
     // 复合条件（如快乐+财富>150）在这里手动判断
     if (ev.id === 'threshold_peak_high') {

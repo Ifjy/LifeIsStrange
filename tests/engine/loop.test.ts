@@ -1,6 +1,6 @@
 // tests/engine/loop.test.ts
 import { describe, it, expect } from 'vitest';
-import { selectEventsForYear, applyYearlyTick, checkDeath, applyOutcomeToState } from '../../src/engine/loop';
+import { selectEventsForYear, applyYearlyTick, checkDeath, applyOutcomeToState, detectThresholdEvents } from '../../src/engine/loop';
 import { makeState, sampleEvent, rngFor } from '../fixtures';
 import { THRESHOLDS, BASE_LIFESPAN } from '../../src/engine/constants';
 import type { GameEvent } from '../../src/engine/types';
@@ -168,5 +168,35 @@ describe('applyOutcomeToState', () => {
       result: 'x',
     }, 'event_clamp');
     expect(s.attrs.智力).toBe(100);
+  });
+});
+
+describe('detectThresholdEvents', () => {
+  const thresholdEv: GameEvent = {
+    id: 'threshold_test',
+    stage: 'career',
+    ageRange: [30, 50],
+    once: true,
+    trigger: { baseWeight: 0, requires: [{ notFlag: 'test_fired' }] },
+    text: 'test',
+    choices: [{ label: 'ok', outcomes: [{ weight: 1, condition: { all: [] }, apply: () => {}, result: '' }] }],
+  };
+
+  it('detects threshold events whose conditions are met', () => {
+    const s = makeState();
+    expect(detectThresholdEvents([thresholdEv], s)).toContain('threshold_test');
+  });
+
+  it('excludes events already in the pending queue (anti-dedupe regression)', () => {
+    // 回归测试：startYear 检测并入队后，selectChoice 再次检测时必须排除，
+    // 否则同年多阈值事件会重复入队（"四十不惑/财富巅峰 重复出现" bug）
+    const s = makeState();
+    const result = detectThresholdEvents([thresholdEv], s, ['threshold_test']);
+    expect(result).not.toContain('threshold_test');
+  });
+
+  it('excludes events already processed (in history)', () => {
+    const s = makeState({ history: ['threshold_test'] });
+    expect(detectThresholdEvents([thresholdEv], s)).not.toContain('threshold_test');
   });
 });

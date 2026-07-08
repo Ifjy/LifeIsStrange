@@ -145,9 +145,10 @@ export const useGameStore = defineStore('game', () => {
       return;
     }
     // 先推进队列（跳过刚处理完的事件），再检测 apply 后可能新触发的阈值事件
+    // 传入 currentEventIds 防止已在队列里待处理的阈值事件被重复检测
     eventQueueIndex.value += 1;
     const moreThreshold = detectThresholdEvents(
-      ALL_EVENTS.filter((e) => e.trigger.baseWeight === 0), state.value,
+      ALL_EVENTS.filter((e) => e.trigger.baseWeight === 0), state.value, currentEventIds.value,
     );
     if (moreThreshold.length > 0) {
       // 阈值事件插队到当前位置（阈值优先语义），下一个就播而非排到队尾
