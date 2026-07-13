@@ -29,6 +29,8 @@ import { peakHighCombined } from './thresholds/peak-high-combined';
 import { midlifeCrisis } from './thresholds/midlife-crisis';
 import { monkEnding } from './endings/monk';
 import { luckEncounterEvents } from './special/luck-encounters';
+import { crimeChainEvents } from './chains/crime-chain';
+import { crimeJailedEnding, crimeBossEnding, crimeScapegoatEnding } from './endings/crime-endings';
 import {
   centenarianEnding,
   entrepreneurEnding,
@@ -87,6 +89,8 @@ export const ALL_EVENTS: GameEvent[] = [
   ...retirementEvents,
   // 运气遭遇事件
   ...luckEncounterEvents,
+  // 犯罪/黑化分支链
+  ...crimeChainEvents,
   // followUp 试点事件（baseWeight=0，靠 followUp 机制触发）
   healthWarningHospital,
   officePoliticsBacklash,
@@ -105,6 +109,9 @@ export const ALL_ENDINGS: Ending[] = [
   internetStarEnding,      // priority 90
   globalExecutiveEnding,   // priority 90
   monkEnding,              // priority 70
+  crimeScapegoatEnding,    // priority 65
+  crimeJailedEnding,       // priority 62
+  crimeBossEnding,         // priority 62
   cyberbullyVictimEnding,  // priority 60
   homesickReturneeEnding,  // priority 55
   richEnding,              // priority 50
