@@ -28,6 +28,7 @@ import { crisisLowConstitution } from './thresholds/crisis-low-constitution';
 import { peakHighCombined } from './thresholds/peak-high-combined';
 import { midlifeCrisis } from './thresholds/midlife-crisis';
 import { monkEnding } from './endings/monk';
+import { luckEncounterEvents } from './special/luck-encounters';
 import {
   centenarianEnding,
   entrepreneurEnding,
@@ -84,6 +85,8 @@ export const ALL_EVENTS: GameEvent[] = [
   ...collegeEvents,
   ...careerEvents,
   ...retirementEvents,
+  // 运气遭遇事件
+  ...luckEncounterEvents,
   // followUp 试点事件（baseWeight=0，靠 followUp 机制触发）
   healthWarningHospital,
   officePoliticsBacklash,
