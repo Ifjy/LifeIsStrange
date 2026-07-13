@@ -15,7 +15,7 @@ export const luckEncounterEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.运气 += 3; s.attrs.快乐 += 2; },
+          apply: (s) => { s.attrs.运气 += 5; s.attrs.快乐 += 2; },
           result: '失主是个和蔼的阿姨，摸着你的头夸你是个好孩子。你心里暖暖的。',
         }],
       },
@@ -43,7 +43,7 @@ export const luckEncounterEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.运气 += 4; s.attrs.智力 += 2; },
+          apply: (s) => { s.attrs.运气 += 5; s.attrs.智力 += 2; },
           result: '老人笑着道谢，还教你解了一道你一直不会的数学题。原来他退休前是数学老师。',
         }],
       },
@@ -71,7 +71,7 @@ export const luckEncounterEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.运气 += 3; s.attrs.财富 -= 2; },
+          apply: (s) => { s.attrs.运气 += 5; s.attrs.财富 -= 2; },
           result: '拆开一看，是你最喜欢的款式！虽然不是隐藏款，但这种被眷顾的感觉真好。',
         }],
       },
@@ -99,7 +99,7 @@ export const luckEncounterEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.运气 += 5; s.attrs.魅力 += 2; },
+          apply: (s) => { s.attrs.运气 += 6; s.attrs.魅力 += 2; },
           result: '你们一路聊到地铁站，交换了联系方式。后来这人成了你在学校最好的朋友。',
         }],
       },
@@ -127,7 +127,7 @@ export const luckEncounterEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.运气 += 3; s.attrs.智力 += 3; },
+          apply: (s) => { s.attrs.运气 += 5; s.attrs.智力 += 3; },
           result: '老师眼前一亮，邀请你加入他的课题组。这门学问后来成了你一生的热爱。',
         }],
       },
@@ -155,7 +155,7 @@ export const luckEncounterEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.运气 += 5; s.attrs.快乐 -= 2; },
+          apply: (s) => { s.attrs.运气 += 6; s.attrs.快乐 -= 2; },
           result: '你费了好大劲挤到一边，被加塞了好几辆车。但后视镜里救护车呼啸而过，你知道你做了对的事。',
         }],
       },
@@ -183,7 +183,7 @@ export const luckEncounterEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.运气 += 4; s.attrs.财富 += 5; },
+          apply: (s) => { s.attrs.运气 += 5; s.attrs.财富 += 5; },
           result: '一个月后这只股票果然涨了一波。你及时止盈，请那位同事吃了顿大餐。',
         }],
       },
@@ -211,7 +211,7 @@ export const luckEncounterEvents: GameEvent[] = [
         outcomes: [{
           weight: 100,
           condition: { all: [] },
-          apply: (s) => { s.attrs.运气 += 3; s.attrs.体质 += 2; },
+          apply: (s) => { s.attrs.运气 += 5; s.attrs.体质 += 2; },
           result: '从此那只猫每天都在老地方等你。为了喂它，你养成了每天散步的习惯，身体反而更硬朗了。',
         }],
       },

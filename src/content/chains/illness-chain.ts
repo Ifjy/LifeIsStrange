@@ -43,7 +43,7 @@ const illnessDiagnosis: GameEvent = {
   ageRange: [30, 42],
   once: true,
   trigger: {
-    baseWeight: 4,
+    baseWeight: 2,
   },
   text: '这次复查的结果不一样。医生摘下眼镜，换了一种语气。诊室里的白炽灯嗡嗡响，你听见一堆专业术语，只听懂了"需要尽快治疗"几个字。人生按下了暂停键。',
   choices: [
@@ -55,7 +55,7 @@ const illnessDiagnosis: GameEvent = {
           weight: 50,
           condition: { all: [] },
           apply: (s) => {
-            s.attrs.体质 -= 10;
+            s.attrs.体质 -= 6;
             s.attrs.财富 -= 20;
             s.flags.add('milestone_illness');
           },
@@ -66,7 +66,7 @@ const illnessDiagnosis: GameEvent = {
           weight: 20,
           condition: { attrLt: { 运气: 40 } },
           apply: (s) => {
-            s.attrs.体质 -= 20;
+            s.attrs.体质 -= 12;
             s.attrs.财富 -= 20;
             s.flags.add('milestone_illness');
           },

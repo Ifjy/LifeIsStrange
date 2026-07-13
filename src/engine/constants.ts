@@ -34,10 +34,10 @@ export const RATING_WEIGHTS = {
 };
 
 export const RATING_THRESHOLDS = {
-  S: 75,
-  A: 60,
-  B: 45,
-  C: 30,
+  S: 58,
+  A: 45,
+  B: 34,
+  C: 19,
 };
 
 export const BASE_LIFESPAN = 75;

@@ -43,7 +43,7 @@ const cultFirstGathering: GameEvent = {
   ageRange: [27, 38],
   once: true,
   trigger: {
-    baseWeight: 4,
+    baseWeight: 2,
   },
   text: '聚会地点是一间布置温馨的客厅。所有人面带微笑，互相拥抱。导师说："这里没有评判，只有接纳。"你第一次感到被完全理解——但又有一丝说不出的违和。',
   choices: [

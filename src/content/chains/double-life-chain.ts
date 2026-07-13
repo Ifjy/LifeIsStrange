@@ -47,7 +47,7 @@ const doubleLifeChoice: GameEvent = {
   ageRange: [24, 32],
   once: true,
   trigger: {
-    baseWeight: 4,
+    baseWeight: 2,
   },
   text: '白天的工作把你磨成了一个面目模糊的人——开会、汇报、微笑、重复。但你心里清楚，你不只是工位上的那个名字。深夜的屏幕亮着，匿名账号的私信在闪，另一个身份在召唤你。你只需要点下回车，就真的走进去。',
   choices: [
