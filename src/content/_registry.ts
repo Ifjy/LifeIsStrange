@@ -33,6 +33,8 @@ import { crimeChainEvents } from './chains/crime-chain';
 import { crimeJailedEnding, crimeBossEnding, crimeScapegoatEnding } from './endings/crime-endings';
 import { cultChainEvents } from './chains/cult-chain';
 import { cultMartyrEnding, cultUsurpEnding, cultEscapeEnding } from './endings/cult-endings';
+import { illnessChainEvents } from './chains/illness-chain';
+import { illnessRebornEnding, illnessAdvocateEnding, illnessDefeatedEnding } from './endings/illness-endings';
 import {
   centenarianEnding,
   entrepreneurEnding,
@@ -95,6 +97,8 @@ export const ALL_EVENTS: GameEvent[] = [
   ...crimeChainEvents,
   // 邪教/极端信仰分支链
   ...cultChainEvents,
+  // 大病/残疾分支链
+  ...illnessChainEvents,
   // followUp 试点事件（baseWeight=0，靠 followUp 机制触发）
   healthWarningHospital,
   officePoliticsBacklash,
@@ -112,6 +116,9 @@ export const ALL_ENDINGS: Ending[] = [
   slackerAuthorEnding,     // priority 90
   internetStarEnding,      // priority 90
   globalExecutiveEnding,   // priority 90
+  illnessRebornEnding,     // priority 85
+  illnessAdvocateEnding,   // priority 85
+  illnessDefeatedEnding,   // priority 85
   cultMartyrEnding,        // priority 75
   cultUsurpEnding,         // priority 75
   cultEscapeEnding,        // priority 75
