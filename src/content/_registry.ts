@@ -37,6 +37,8 @@ import { illnessChainEvents } from './chains/illness-chain';
 import { illnessRebornEnding, illnessAdvocateEnding, illnessDefeatedEnding } from './endings/illness-endings';
 import { revengeChainEvents } from './chains/revenge-chain';
 import { revengeMutualEnding, revengeEmptyEnding, revengeLetgoEnding } from './endings/revenge-endings';
+import { artChainEvents } from './chains/art-chain';
+import { artMasterpieceEnding, artStarvingEnding, artSacrificeEnding } from './endings/art-endings';
 import {
   centenarianEnding,
   entrepreneurEnding,
@@ -103,6 +105,8 @@ export const ALL_EVENTS: GameEvent[] = [
   ...illnessChainEvents,
   // 复仇执念分支链
   ...revengeChainEvents,
+  // 艺术偏执分支链
+  ...artChainEvents,
   // followUp 试点事件（baseWeight=0，靠 followUp 机制触发）
   healthWarningHospital,
   officePoliticsBacklash,
@@ -134,7 +138,10 @@ export const ALL_ENDINGS: Ending[] = [
   revengeEmptyEnding,      // priority 62
   revengeLetgoEnding,      // priority 62
   cyberbullyVictimEnding,  // priority 60
+  artSacrificeEnding,      // priority 58
   homesickReturneeEnding,  // priority 55
+  artMasterpieceEnding,    // priority 55
+  artStarvingEnding,       // priority 55
   richEnding,              // priority 50
   happyFamilyEnding,       // priority 50
   centenarianEnding,       // priority 45
