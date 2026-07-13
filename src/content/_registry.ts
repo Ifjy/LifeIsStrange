@@ -131,24 +131,24 @@ export const ALL_ENDINGS: Ending[] = [
   illnessRebornEnding,     // priority 85
   illnessAdvocateEnding,   // priority 85
   illnessDefeatedEnding,   // priority 85
-  cultMartyrEnding,        // priority 75
-  cultUsurpEnding,         // priority 75
-  cultEscapeEnding,        // priority 75
+  cultUsurpEnding,         // priority 75, A
+  cultEscapeEnding,        // priority 75, B
+  cultMartyrEnding,        // priority 75, D
   monkEnding,              // priority 70
   crimeScapegoatEnding,    // priority 65
   revengeMutualEnding,     // priority 65
-  crimeJailedEnding,       // priority 62
-  crimeBossEnding,         // priority 62
-  revengeEmptyEnding,      // priority 62
-  revengeLetgoEnding,      // priority 62
+  crimeBossEnding,         // priority 62, A
+  crimeJailedEnding,       // priority 62, C
+  revengeLetgoEnding,      // priority 62, B
+  revengeEmptyEnding,      // priority 62, C
   cyberbullyVictimEnding,  // priority 60
   artSacrificeEnding,      // priority 58
   homesickReturneeEnding,  // priority 55
   artMasterpieceEnding,    // priority 55
   artStarvingEnding,       // priority 55
-  doubleLifeExposedEnding, // priority 55
-  doubleLifeForeverEnding, // priority 55
-  doubleLifeBalanceEnding, // priority 55
+  doubleLifeBalanceEnding, // priority 55, A
+  doubleLifeForeverEnding, // priority 55, B
+  doubleLifeExposedEnding, // priority 55, C
   richEnding,              // priority 50
   happyFamilyEnding,       // priority 50
   centenarianEnding,       // priority 45
