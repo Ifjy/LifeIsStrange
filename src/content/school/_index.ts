@@ -35,6 +35,16 @@ export const schoolEvents: GameEvent[] = [
           result: '你把这份心动写进了日记。多年后翻看，还是有点甜。',
         }],
       },
+      {
+        label: '死缠烂打，天天去找TA',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 -= 3; s.flags.add('choice_crush_stalk'); },
+          followUp: 'crush_rejection_trauma',
+          result: '你天天在TA班门口晃，写情书托人递。对方从一开始的害羞变成了厌烦。',
+        }],
+      },
     ],
   },
 
@@ -144,26 +154,38 @@ export const schoolEvents: GameEvent[] = [
     stage: 'school', ageRange: [18, 18], once: true,
     trigger: { baseWeight: 10 },
     text: '高考来了。你走出考场，心情复杂。',
-    choices: [{ label: '继续', outcomes: [
+    choices: [
+      { label: '继续', outcomes: [
+        {
+          weight: 30,
+          condition: { attrGte: { 智力: 70 } },
+          apply: (s) => { s.flags.add('milestone_top_university'); s.attrs.快乐 += 10; },
+          result: '你考上了顶尖大学。',
+        },
+        {
+          weight: 50,
+          condition: { all: [{ attrLt: { 智力: 70 } }, { attrGte: { 智力: 50 } }] },
+          apply: (s) => { s.flags.add('milestone_average_university'); },
+          result: '你考上了一所普通大学。',
+        },
+        {
+          weight: 20,
+          condition: { attrLt: { 智力: 50 } },
+          apply: (s) => { s.attrs.快乐 -= 10; s.flags.add('milestone_failed_gaokao'); },
+          result: '高考失利，你上了大专。',
+        },
+      ]},
       {
-        weight: 30,
-        condition: { attrGte: { 智力: 70 } },
-        apply: (s) => { s.flags.add('milestone_top_university'); s.attrs.快乐 += 10; },
-        result: '你考上了顶尖大学。',
+        label: '复读',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 -= 5; s.flags.add('choice_gaokao_retake'); },
+          followUp: 'gaokao_retake_consequence',
+          result: '你不甘心，决定再拼一年。朋友们陆续开学了，你回到了高三教室。',
+        }],
       },
-      {
-        weight: 50,
-        condition: { all: [{ attrLt: { 智力: 70 } }, { attrGte: { 智力: 50 } }] },
-        apply: (s) => { s.flags.add('milestone_average_university'); },
-        result: '你考上了一所普通大学。',
-      },
-      {
-        weight: 20,
-        condition: { attrLt: { 智力: 50 } },
-        apply: (s) => { s.attrs.快乐 -= 10; s.flags.add('milestone_failed_gaokao'); },
-        result: '高考失利，你上了大专。',
-      },
-    ]}],
+    ],
   },
 
   // 6. 竞选班长 — 10-12 岁

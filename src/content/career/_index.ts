@@ -135,6 +135,16 @@ export const careerEvents: GameEvent[] = [
           result: '你享受单身生活。',
         }],
       },
+      {
+        label: '冷暴力',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 -= 8; s.flags.add('choice_marriage_cold'); },
+          followUp: 'marriage_counseling',
+          result: '你们结婚了，但很快开始了无休止的冷战。同在一个屋檐下，却像两个陌生人。',
+        }],
+      },
     ],
   },
 
@@ -183,6 +193,19 @@ export const careerEvents: GameEvent[] = [
           result: '你把买房的钱拿去理财，继续做个轻盈的租客。',
         }],
       },
+      {
+        label: '断供',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => {
+            s.attrs.快乐 -= 5;
+            s.flags.add('choice_house_default');
+          },
+          followUp: 'house_auction',
+          result: '月供还不上了。你盯着银行卡余额发呆，最后咬咬牙决定不还了——后果以后再说。',
+        }],
+      },
     ],
   },
 
@@ -195,41 +218,58 @@ export const careerEvents: GameEvent[] = [
       requires: [{ flag: 'milestone_has_job' }],
     },
     text: '公司传闻要「优化」，HR 约你下周一对一谈话。你心里咯噔一下。',
-    choices: [{ label: '继续', outcomes: [
-      {
-        weight: 50,
-        condition: { skillGte: { 硬: 40 } },
-        apply: (s) => { s.attrs.快乐 += 3; s.attrs.财富 += 5; },
-        result: '危机解除——你是核心骨干，公司还得靠你扛。',
-      },
-      {
-        weight: 30,
-        condition: { all: [
-          { skillLt: { 硬: 40 } },
-          { skillGte: { 软: 30 } },
-        ]},
-        apply: (s) => {
-          s.attrs.快乐 -= 5;
-          s.skills.软 += 3;
-          s.flags.add('choice_survived_layoff');
+    choices: [
+      { label: '继续', outcomes: [
+        {
+          weight: 50,
+          condition: { skillGte: { 硬: 40 } },
+          apply: (s) => { s.attrs.快乐 += 3; s.attrs.财富 += 5; },
+          result: '危机解除——你是核心骨干，公司还得靠你扛。',
         },
-        result: '你被调岗降薪，但保住了饭碗。职场政治学了一课。',
-      },
-      {
-        weight: 20,
-        condition: { all: [
-          { skillLt: { 硬: 40 } },
-          { skillLt: { 软: 30 } },
-        ]},
-        apply: (s) => {
-          s.flags.add('milestone_fired');
-          s.flags.delete('milestone_has_job');
-          s.attrs.财富 += 8;
-          s.attrs.快乐 -= 10;
+        {
+          weight: 30,
+          condition: { all: [
+            { skillLt: { 硬: 40 } },
+            { skillGte: { 软: 30 } },
+          ]},
+          apply: (s) => {
+            s.attrs.快乐 -= 5;
+            s.skills.软 += 3;
+            s.flags.add('choice_survived_layoff');
+          },
+          result: '你被调岗降薪，但保住了饭碗。职场政治学了一课。',
         },
-        result: '你被裁了，拿了 N+1 赔偿。回家路上既慌又有点松口气。',
+        {
+          weight: 20,
+          condition: { all: [
+            { skillLt: { 硬: 40 } },
+            { skillLt: { 软: 30 } },
+          ]},
+          apply: (s) => {
+            s.flags.add('milestone_fired');
+            s.flags.delete('milestone_has_job');
+            s.attrs.财富 += 8;
+            s.attrs.快乐 -= 10;
+          },
+          result: '你被裁了，拿了 N+1 赔偿。回家路上既慌又有点松口气。',
+        },
+      ]},
+      {
+        label: '跟 HR 硬刚',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => {
+            s.flags.add('milestone_fired');
+            s.flags.delete('milestone_has_job');
+            s.attrs.快乐 -= 5;
+            s.flags.add('choice_layoff_fight');
+          },
+          followUp: 'layoff_lawsuit',
+          result: '你在 HR 办公室拍了桌子：「N+1 不够，加班费、年终奖、未休年假，一样不能少！」对方脸都绿了。',
+        }],
       },
-    ]}],
+    ],
   },
 
   // 6. 办公室政治 — 28-35 岁

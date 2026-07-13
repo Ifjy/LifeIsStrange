@@ -8,12 +8,24 @@ export const retirementEvents: GameEvent[] = [
     stage: 'retirement', ageRange: [61, 62], once: true,
     trigger: { baseWeight: 10 },
     text: '你正式退休了。',
-    choices: [{ label: '继续', outcomes: [{
-      weight: 100,
-      condition: { all: [] },
-      apply: (s) => { s.attrs.快乐 += 10; s.flags.add('milestone_retired'); },
-      result: '你开始享受退休生活。',
-    }]}],
+    choices: [
+      { label: '继续', outcomes: [{
+        weight: 100,
+        condition: { all: [] },
+        apply: (s) => { s.attrs.快乐 += 10; s.flags.add('milestone_retired'); },
+        result: '你开始享受退休生活。',
+      }]},
+      {
+        label: '养老金被骗',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.财富 -= 15; s.attrs.快乐 -= 8; s.flags.add('milestone_retired'); s.flags.add('choice_pension_fraud'); },
+          followUp: 'pension_fraud_aftermath',
+          result: '一个"理财顾问"推荐了年化 15% 的"养老专项基金"，你把养老金全投了进去。第二个月，对方联系不上了。',
+        }],
+      },
+    ],
   },
 
   // 2. 回望一生 — 70-80 岁 (authored, reflective callback)

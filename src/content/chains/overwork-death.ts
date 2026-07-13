@@ -95,5 +95,19 @@ export const overworkCritical: GameEvent = {
         result: '你想起上辈子就是这里出的事，这次你巧妙避开。',
       }],
     },
+    {
+      label: '继续加班',
+      outcomes: [{
+        weight: 100,
+        condition: { all: [] },
+        apply: (s) => {
+          s.attrs.体质 -= 5;
+          s.attrs.财富 += 10;
+          s.flags.add('choice_overwork_ignore');
+        },
+        followUp: 'overwork_hospital_stay',
+        result: '你咽下所有的不适，继续干。心跳越来越奇怪，但你告诉自己「再撑一下就过去了」。',
+      }],
+    },
   ],
 };

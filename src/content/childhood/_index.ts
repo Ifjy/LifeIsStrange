@@ -147,6 +147,15 @@ export const childhoodEvents: GameEvent[] = [
           result: '你第二天得到了一整包薯片的奖励——妈妈说你终于懂事了。',
         }],
       },
+      {
+        label: '勒索同学',
+        outcomes: [{
+          weight: 100, condition: { all: [] },
+          apply: (s) => { s.attrs.财富 += 3; s.attrs.快乐 += 3; s.flags.add('choice_bully_extort'); },
+          followUp: 'childhood_bully_escalation',
+          result: '你在放学路上堵住低年级的小孩，让他把零花钱交出来。第一次居然成功了。',
+        }],
+      },
     ],
   },
 

@@ -29,6 +29,7 @@ import { peakHighCombined } from './thresholds/peak-high-combined';
 import { midlifeCrisis } from './thresholds/midlife-crisis';
 import { monkEnding } from './endings/monk';
 import { luckEncounterEvents } from './special/luck-encounters';
+import { followupExtensionEvents } from './special/followup-extensions';
 import { crimeChainEvents } from './chains/crime-chain';
 import { crimeJailedEnding, crimeBossEnding, crimeScapegoatEnding } from './endings/crime-endings';
 import { cultChainEvents } from './chains/cult-chain';
@@ -99,6 +100,8 @@ export const ALL_EVENTS: GameEvent[] = [
   ...retirementEvents,
   // 运气遭遇事件
   ...luckEncounterEvents,
+  // followUp 扩展事件（baseWeight=0，靠 followUp 机制触发）
+  ...followupExtensionEvents,
   // 犯罪/黑化分支链
   ...crimeChainEvents,
   // 邪教/极端信仰分支链

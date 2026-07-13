@@ -182,6 +182,16 @@ export const collegeEvents: GameEvent[] = [
           result: '老师没给你改分，但指点你写了一篇小论文加分。你学会了"曲线救国"。',
         }],
       },
+      {
+        label: '挂科后摆烂',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 += 2; s.attrs.智力 -= 3; s.flags.add('choice_failed_skip'); },
+          followUp: 'college_academic_warning',
+          result: '补考？再说吧。你天天打游戏到凌晨，把挂科的事抛到了九霄云外。',
+        }],
+      },
     ],
   },
 
@@ -225,6 +235,16 @@ export const collegeEvents: GameEvent[] = [
           condition: { all: [] },
           apply: (s) => { s.attrs.快乐 += 3; s.attrs.智力 += 2; s.attrs.财富 -= 3; s.skills.软 += 3; },
           result: '折腾了两周，你搬到了一个安静的宿舍。新室友是个学霸，你们互不打扰。',
+        }],
+      },
+      {
+        label: '动手',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 -= 5; s.attrs.体质 -= 3; s.flags.add('choice_roommate_violence'); },
+          followUp: 'roommate_violence_aftermath',
+          result: '你冲过去把TA的键盘摔在了地上。两人扭打在一起，直到隔壁宿舍的人把你拉开。',
         }],
       },
     ],
