@@ -35,6 +35,8 @@ import { cultChainEvents } from './chains/cult-chain';
 import { cultMartyrEnding, cultUsurpEnding, cultEscapeEnding } from './endings/cult-endings';
 import { illnessChainEvents } from './chains/illness-chain';
 import { illnessRebornEnding, illnessAdvocateEnding, illnessDefeatedEnding } from './endings/illness-endings';
+import { revengeChainEvents } from './chains/revenge-chain';
+import { revengeMutualEnding, revengeEmptyEnding, revengeLetgoEnding } from './endings/revenge-endings';
 import {
   centenarianEnding,
   entrepreneurEnding,
@@ -99,6 +101,8 @@ export const ALL_EVENTS: GameEvent[] = [
   ...cultChainEvents,
   // 大病/残疾分支链
   ...illnessChainEvents,
+  // 复仇执念分支链
+  ...revengeChainEvents,
   // followUp 试点事件（baseWeight=0，靠 followUp 机制触发）
   healthWarningHospital,
   officePoliticsBacklash,
@@ -124,8 +128,11 @@ export const ALL_ENDINGS: Ending[] = [
   cultEscapeEnding,        // priority 75
   monkEnding,              // priority 70
   crimeScapegoatEnding,    // priority 65
+  revengeMutualEnding,     // priority 65
   crimeJailedEnding,       // priority 62
   crimeBossEnding,         // priority 62
+  revengeEmptyEnding,      // priority 62
+  revengeLetgoEnding,      // priority 62
   cyberbullyVictimEnding,  // priority 60
   homesickReturneeEnding,  // priority 55
   richEnding,              // priority 50
