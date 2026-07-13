@@ -4,11 +4,9 @@ import { calcRating } from '../../src/engine/rating';
 import { makeState } from '../fixtures';
 
 describe('calcRating', () => {
-  // 注：brief Step 5 原期望 'S'，但 brief Step 7 的公式 + 占位权重 (60/15/15/10)
-  // 对此输入算出 71.3 分 → A。S 阈值 85 在当前占位权重下无法达到。
-  // 权威公式（implementation）保持不变；此处按公式真实输出断言。
-  // 调整权重属 playtest 阶段决策（见 CLAUDE.md）。
-  it('returns A for high stats and long life (spec formula caps at A for these inputs)', () => {
+  // 注：公式 + 当前权重 (55/20/15/10) 对此输入算出 ~71.75 分。
+  // playtest 调整后 S 阈值 58 → 71.75 >= 58 → S。
+  it('returns S for high stats and long life (score ~71.75, S threshold=58)', () => {
     const s = makeState({
       age: 80,
       attrs: { 智力: 90, 魅力: 90, 体质: 90, 运气: 90, 财富: 90, 快乐: 90 },
@@ -16,7 +14,7 @@ describe('calcRating', () => {
     });
     s.flags.add('achievement_x'); s.flags.add('achievement_y');
     s.flags.add('twist_x');
-    expect(calcRating(s)).toBe('A');
+    expect(calcRating(s)).toBe('S');
   });
 
   it('returns D for low everything', () => {
@@ -29,9 +27,9 @@ describe('calcRating', () => {
   });
 
   // 注：默认 makeState（attrs=50, skills=30）+ age=60 在权威公式下得 38.58 分。
-  // 调整后 C 阈值 30 → 38.58 >= 30 → C。
-  it('returns C for default makeState at age 60 (spec formula yields 38.58, C threshold=30)', () => {
+  // playtest 调整后 B 阈值 34 → 38.58 >= 34 → B。
+  it('returns B for default makeState at age 60 (score 38.58, B threshold=34)', () => {
     const s = makeState({ age: 60 });
-    expect(calcRating(s)).toBe('C');
+    expect(calcRating(s)).toBe('B');
   });
 });

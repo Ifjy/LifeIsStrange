@@ -4,7 +4,7 @@ import type { Ending } from '../../engine/types';
 export const cultMartyrEnding: Ending = {
   id: 'ending_cult_martyr',
   priority: 75,
-  condition: (s) => s.flags.has('milestone_cult') && s.attrs.快乐 < 20,
+  condition: (s) => s.flags.has('milestone_cult') && s.flags.has('foreshadow_cult_martyr') && s.attrs.快乐 < 20,
   title: '殉道者',
   desc: (s) =>
     `你在 ${s.age} 岁那年成为了"反面教材"。新闻里你的照片被打码，旁白是专家的分析。曾经温暖的客厅早已烧成灰烬，而你至死相信，那道光是真的。`,
