@@ -348,4 +348,116 @@ export const retirementEvents: GameEvent[] = [
       },
     ],
   },
+
+  // 9. 孙辈教育理念冲突 — 65-75 岁 (Task 8 #9)
+  {
+    id: 'retirement_grandchild_debate',
+    stage: 'retirement', ageRange: [65, 75], once: true,
+    trigger: { baseWeight: 4 },
+    text: '你看着孙子写作业到十一点，忍不住说：「孩子这么小，逼这么紧干嘛？」儿媳/女婿脸色一沉：「妈/爸，现在的竞争您不懂。」',
+    choices: [
+      {
+        label: '坚持干预，孩子不能这么养',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 -= 3; s.attrs.魅力 -= 2; },
+          result: '一场家庭冷战开始了。你觉得自己是对的，但孩子不再让你接送孙子了。',
+        }],
+      },
+      {
+        label: '尊重年轻人，他们有他们的道理',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 += 3; s.attrs.魅力 += 2; },
+          result: '你把想说的话咽了回去。后来儿媳/女婿主动跟你道谢：「谢谢您理解我们。」',
+        }],
+      },
+    ],
+  },
+
+  // 10. 老年大学 — 62-72 岁 (Task 8 #10)
+  {
+    id: 'retirement_elder_college',
+    stage: 'retirement', ageRange: [62, 72], once: true,
+    trigger: { baseWeight: 4 },
+    text: '社区开了老年大学，课程表花花绿绿：书法、国画、智能手机、英语口语、太极……老伴说：「一起去报个班？」',
+    choices: [
+      {
+        label: '报名，活到老学到老',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.智力 += 3; s.attrs.快乐 += 5; s.attrs.魅力 += 2; s.flags.add('choice_elder_college'); },
+          result: '你认识了一群有趣的老人。期末作品展，你的书法被挂在了走廊最显眼的位置。',
+        }],
+      },
+      {
+        label: '一个人待着更自在',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 -= 2; },
+          result: '你在家翻了几本书，看了几部老电影。日子安静，但有时安静得有点空。',
+        }],
+      },
+    ],
+  },
+
+  // 11. 老友离世 — 68-80 岁 (Task 8 #11)
+  {
+    id: 'retirement_friend_passing',
+    stage: 'retirement', ageRange: [68, 80], once: true,
+    trigger: { baseWeight: 4 },
+    text: '老朋友走了。你们认识五十年了，从穿开裆裤一起玩到拄着拐杖一起下棋。追悼会上你对着遗像鞠了三个躬。',
+    choices: [
+      {
+        label: '人总要往前看，好好活着',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 += 2; s.attrs.智力 += 2; },
+          result: '你整理了他的遗物，留了一张合照。每年的那天你会去看他，带他爱喝的酒。',
+        }],
+      },
+      {
+        label: '走不出来，整天发呆',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 -= 5; s.attrs.体质 -= 3; },
+          result: '你不再去公园那个棋摊了。孩子们劝你出去走走，你说「再等等」，一等就是半年。',
+        }],
+      },
+    ],
+  },
+
+  // 12. 遗嘱 / 遗产分配 — 72-85 岁 (Task 8 #12)
+  {
+    id: 'retirement_will',
+    stage: 'retirement', ageRange: [72, 85], once: true,
+    trigger: { baseWeight: 4 },
+    text: '律师坐在你家客厅，把文件铺开：「您这个年纪，立个遗嘱是对家人的负责。」你看着儿女们的照片陷入沉思。',
+    choices: [
+      {
+        label: '公平分配，一人一份',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 += 5; },
+          result: '遗嘱写完了，你心里一块石头落了地。不管以后怎样，至少不会让孩子们伤了和气。',
+        }],
+      },
+      {
+        label: '偏心那个过得最不好的',
+        outcomes: [{
+          weight: 100,
+          condition: { all: [] },
+          apply: (s) => { s.attrs.快乐 -= 3; s.attrs.财富 -= 5; },
+          result: '你多留了一份给小儿子——他生意失败后一直没翻身。但你怕其他孩子知道后寒心。',
+        }],
+      },
+    ],
+  },
 ];
